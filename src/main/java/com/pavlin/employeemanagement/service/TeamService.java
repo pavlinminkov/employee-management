@@ -2,6 +2,7 @@ package com.pavlin.employeemanagement.service;
 
 import com.pavlin.employeemanagement.dto.TeamRequest;
 import com.pavlin.employeemanagement.dto.TeamResponse;
+import com.pavlin.employeemanagement.exception.exception.DuplicateEntryException;
 import com.pavlin.employeemanagement.exception.exception.NotFoundException;
 import com.pavlin.employeemanagement.mapper.TeamMapper;
 import com.pavlin.employeemanagement.model.Employee;
@@ -52,6 +53,8 @@ public class TeamService {
   public UUID createTeam(TeamRequest teamRequest) {
     logger.debug("Creating a new team");
 
+    checkForDuplicateTeamName(teamRequest);
+
     Team team = teamMapper.toTeam(teamRequest);
     return teamRepository.save(team).getId();
   }
@@ -61,6 +64,11 @@ public class TeamService {
     logger.debug("Updating team with id: {}", teamId);
 
     Team team = retrieveTeamById(teamId);
+
+    if (!Objects.equals(team.getName(), teamRequest.getName())) {
+      checkForDuplicateTeamName(teamRequest);
+    }
+
     team.setName(teamRequest.getName());
     team.setLead(retrieveEmployeeById(teamRequest.getLeadId()));
 
@@ -90,5 +98,12 @@ public class TeamService {
         .orElseThrow(() -> new NotFoundException(
             messageUtil.getMessage("employee.notfound", leadId)
         ));
+  }
+
+  private void checkForDuplicateTeamName(TeamRequest teamRequest) {
+    if (teamRepository.existsByName(teamRequest.getName())) {
+      throw new DuplicateEntryException(
+          messageUtil.getMessage("team.duplicate.name", teamRequest.getName()));
+    }
   }
 }
