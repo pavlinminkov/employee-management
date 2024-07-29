@@ -2,8 +2,8 @@ package com.pavlin.employeemanagement.service;
 
 import com.pavlin.employeemanagement.dto.TeamRequest;
 import com.pavlin.employeemanagement.dto.TeamResponse;
-import com.pavlin.employeemanagement.exception.exception.DuplicateEntryException;
-import com.pavlin.employeemanagement.exception.exception.NotFoundException;
+import com.pavlin.employeemanagement.exception.common.DuplicateEntryException;
+import com.pavlin.employeemanagement.exception.common.NotFoundException;
 import com.pavlin.employeemanagement.mapper.TeamMapper;
 import com.pavlin.employeemanagement.model.Employee;
 import com.pavlin.employeemanagement.model.Team;

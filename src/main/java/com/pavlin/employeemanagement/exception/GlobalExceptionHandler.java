@@ -1,7 +1,7 @@
 package com.pavlin.employeemanagement.exception;
 
-import com.pavlin.employeemanagement.exception.exception.DuplicateEntryException;
-import com.pavlin.employeemanagement.exception.exception.NotFoundException;
+import com.pavlin.employeemanagement.exception.common.DuplicateEntryException;
+import com.pavlin.employeemanagement.exception.common.NotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
