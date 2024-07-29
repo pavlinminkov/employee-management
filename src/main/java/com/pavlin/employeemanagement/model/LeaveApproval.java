@@ -24,7 +24,7 @@ public class LeaveApproval extends BaseEntity {
   private Leave leave;
 
   @NotNull
-  @ManyToOne(optional = false)
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "employee_id", nullable = false)
   private Employee employee;
 

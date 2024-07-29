@@ -18,7 +18,7 @@ public class User extends BaseEntity {
 
   @Size(max = 255)
   @NotNull
-  @Column(name = "username", nullable = false)
+  @Column(name = "username", nullable = false, unique = true)
   private String username;
 
   @Size(max = 255)
@@ -28,7 +28,7 @@ public class User extends BaseEntity {
 
   @Size(max = 255)
   @NotNull
-  @Column(name = "email", nullable = false)
+  @Column(name = "email", nullable = false, unique = true)
   private String email;
 
   @NotNull
@@ -92,5 +92,25 @@ public class User extends BaseEntity {
 
   public void removeRole(Role role) {
     roles.remove(role);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+
+    User user = (User) o;
+    return username.equals(user.username) && email.equals(user.email);
+  }
+
+  @Override
+  public int hashCode() {
+    int result = username.hashCode();
+    result = 31 * result + email.hashCode();
+    return result;
   }
 }

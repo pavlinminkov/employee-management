@@ -44,4 +44,5 @@ public class Role extends BaseEntity {
   public int hashCode() {
     return name.hashCode();
   }
+
 }

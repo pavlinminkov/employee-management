@@ -13,7 +13,7 @@ public class Project extends BaseEntity {
 
   @Size(max = 255)
   @NotNull
-  @Column(name = "name", nullable = false)
+  @Column(name = "name", nullable = false, unique = true)
   private String name;
 
   @Size(max = 255)
@@ -38,6 +38,24 @@ public class Project extends BaseEntity {
 
   public void setDescription(String description) {
     this.description = description;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+
+    Project project = (Project) o;
+    return name.equals(project.name);
+  }
+
+  @Override
+  public int hashCode() {
+    return name.hashCode();
   }
 
 }
