@@ -9,10 +9,13 @@ spring:
       hibernate:
         format_sql: true
         use_sql_comments: true
+    open-in-view: false
+  messages:
+    basename: messages
   datasource:
     # TODO extract to env variables
     url: jdbc:mysql://localhost:3306/employee_management
-    username: employee
+    username: root
     password: Qwer1324#
   output:
     ansi:
@@ -20,3 +23,6 @@ spring:
 logging:
   level:
     org.hibernate.orm.jdbc.bind: trace
+server:
+  servlet:
+    context-path: /api/v1
