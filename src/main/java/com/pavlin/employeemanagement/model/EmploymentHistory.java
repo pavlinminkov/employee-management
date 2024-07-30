@@ -34,9 +34,6 @@ public class EmploymentHistory extends BaseEntity {
   @JoinColumn(name = "employee_id", nullable = false)
   private Employee employee;
 
-  public EmploymentHistory() {
-  }
-
   public String getTitle() {
     return title;
   }
@@ -69,4 +66,5 @@ public class EmploymentHistory extends BaseEntity {
     this.employee = employee;
   }
 
+  // TODO extend when implementing
 }
