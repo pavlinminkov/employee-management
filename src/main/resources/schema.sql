@@ -49,7 +49,7 @@ CREATE TABLE team
 (
     id      BINARY(16)   NOT NULL PRIMARY KEY,
     name    VARCHAR(255) NOT NULL UNIQUE,
-    lead_id BINARY(16),
+    lead_id BINARY(16) UNIQUE,
     FOREIGN KEY (lead_id) REFERENCES employee (id)
 );
 
