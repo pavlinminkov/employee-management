@@ -27,9 +27,6 @@ public class ProjectEmployee extends BaseEntity {
   @JoinColumn(name = "employee_id", nullable = false)
   private Employee employee;
 
-  public ProjectEmployee() {
-  }
-
   public Boolean getIsManager() {
     return isManager;
   }
@@ -54,4 +51,5 @@ public class ProjectEmployee extends BaseEntity {
     this.employee = employee;
   }
 
+  // TODO extend when implementing
 }

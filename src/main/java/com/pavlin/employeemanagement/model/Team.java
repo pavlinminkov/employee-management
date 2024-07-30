@@ -5,10 +5,13 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "team")
@@ -16,12 +19,15 @@ public class Team extends BaseEntity {
 
   @Size(max = 255)
   @NotNull
-  @Column(name = "name", nullable = false, unique = true)
+  @Column(name = "name", nullable = false)
   private String name;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "lead_id")
   private Employee lead;
+
+  @OneToMany(mappedBy = "team")
+  private Set<Employee> employees = new LinkedHashSet<>();
 
   public Team() {
   }
@@ -30,9 +36,9 @@ public class Team extends BaseEntity {
     this.name = name;
   }
 
-  public Team(String name, Employee lead) {
+  public Team(String name, Employee employee) {
     this.name = name;
-    this.lead = lead;
+    this.lead = employee;
   }
 
   public String getName() {
@@ -51,6 +57,14 @@ public class Team extends BaseEntity {
     this.lead = lead;
   }
 
+  public Set<Employee> getEmployees() {
+    return employees;
+  }
+
+  public void setEmployees(Set<Employee> employees) {
+    this.employees = employees;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -59,14 +73,18 @@ public class Team extends BaseEntity {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
+    if (!super.equals(o)) {
+      return false;
+    }
 
     Team team = (Team) o;
-    return name.equals(team.name);
+    return getName().equals(team.getName());
   }
 
   @Override
   public int hashCode() {
-    return name.hashCode();
+    int result = super.hashCode();
+    result = 31 * result + getName().hashCode();
+    return result;
   }
-
 }
