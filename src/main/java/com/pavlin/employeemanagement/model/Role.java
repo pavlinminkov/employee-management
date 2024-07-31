@@ -9,7 +9,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import java.util.LinkedHashSet;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -25,7 +25,7 @@ public class Role extends BaseEntity {
   @JoinTable(name = "role_privilege",
       joinColumns = @JoinColumn(name = "role_id"),
       inverseJoinColumns = @JoinColumn(name = "privilege_id"))
-  private Set<Privilege> privileges = new LinkedHashSet<>();
+  private Set<Privilege> privileges = new HashSet<>();
 
   public String getName() {
     return name;

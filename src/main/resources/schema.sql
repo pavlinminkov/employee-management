@@ -11,7 +11,7 @@ CREATE TABLE employee
     username    VARCHAR(255) NOT NULL UNIQUE,
     password    VARCHAR(255) NOT NULL,
     email       VARCHAR(255) NOT NULL UNIQUE,
-    is_enabled  BOOLEAN      NOT NULL,
+    is_enabled  BOOLEAN      NOT NULL DEFAULT TRUE,
     team_id     BINARY(16)   NOT NULL
 );
 

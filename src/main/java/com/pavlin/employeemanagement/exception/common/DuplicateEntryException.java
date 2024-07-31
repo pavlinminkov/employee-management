@@ -1,4 +1,4 @@
-package com.pavlin.employeemanagement.exception.exception;
+package com.pavlin.employeemanagement.exception.common;
 
 public class DuplicateEntryException extends RuntimeException {
 
