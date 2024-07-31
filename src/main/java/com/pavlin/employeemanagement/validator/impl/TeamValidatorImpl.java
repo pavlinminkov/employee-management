@@ -29,7 +29,9 @@ public class TeamValidatorImpl implements TeamValidator {
   @Override
   public void validateCreation(TeamRequest request) {
     checkIfDuplicateTeamName(request);
-    checkIfDuplicateLead(request);
+    if (Objects.nonNull(request.getLeadId())) {
+      checkIfDuplicateLead(request);
+    }
     checkIfEmployeeExists(request.getLeadId());
   }
 
@@ -38,9 +40,11 @@ public class TeamValidatorImpl implements TeamValidator {
     if (!Objects.equals(entity.getName(), request.getName())) {
       checkIfDuplicateTeamName(request);
     }
-    if (request.getLeadId() != entity.getLead().getId()) {
+
+    if (Objects.nonNull(request.getLeadId()) && isEntityLeadDifferent(request, entity)) {
       checkIfDuplicateLead(request);
     }
+
     checkIfEmployeeExists(request.getLeadId());
   }
 
@@ -53,10 +57,6 @@ public class TeamValidatorImpl implements TeamValidator {
   private void checkIfDuplicateLead(TeamRequest teamRequest) {
     UUID leadId = teamRequest.getLeadId();
 
-    if (leadId == null) {
-      return;
-    }
-
     if (teamRepository.existsByLead_Id(leadId)) {
       throw new DuplicateEntryException(messageUtil.getMessage("team.duplicate.lead", leadId));
     }
@@ -67,5 +67,10 @@ public class TeamValidatorImpl implements TeamValidator {
       throw new DuplicateEntryException(
           messageUtil.getMessage("team.duplicate.name", teamRequest.getName()));
     }
+  }
+
+  private boolean isEntityLeadDifferent(TeamRequest request, Team entity) {
+    return Objects.isNull(entity.getLead()) || !request.getLeadId()
+        .equals(entity.getLead().getId());
   }
 }
