@@ -21,7 +21,7 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(value = {DuplicateEntryException.class})
   public ResponseEntity<Object> handleDuplicateEntryException(DuplicateEntryException e) {
-    logger.warn(e.getMessage(), e);
+    logger.info(e.getMessage(), e);
     return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
   }
 
