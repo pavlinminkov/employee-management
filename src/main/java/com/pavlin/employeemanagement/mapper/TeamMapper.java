@@ -18,13 +18,31 @@ public class TeamMapper {
   }
 
   public Team toTeam(TeamRequest teamRequest) {
-    if (teamRequest.getLeadId() != null) {
-      Employee employee = new Employee();
-      employee.setId(teamRequest.getLeadId());
+    Team team = new Team();
+    team.setName(teamRequest.getName());
 
-      return new Team(teamRequest.getName(), employee);
+    setEmployee(teamRequest, team);
+
+    return team;
+  }
+
+  public Team toTeam(TeamRequest teamRequest, Team team) {
+    team.setName(teamRequest.getName());
+
+    setEmployee(teamRequest, team);
+
+    return team;
+  }
+
+  private static void setEmployee(TeamRequest teamRequest, Team team) {
+    if (teamRequest.getLeadId() == null) {
+      team.setLead(null);
+      return;
     }
 
-    return new Team(teamRequest.getName());
+    Employee employee = new Employee();
+    employee.setId(teamRequest.getLeadId());
+
+    team.setLead(employee);
   }
 }
