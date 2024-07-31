@@ -13,16 +13,16 @@ public class EmployeeResponse implements Serializable {
   private final String firstName;
   private final String middleName;
   private final String lastName;
-  private final String userEmail;
+  private final String email;
   private final TeamResponse team;
 
   public EmployeeResponse(UUID id, String firstName, String middleName, String lastName,
-      String userEmail, TeamResponse team) {
+      String email, TeamResponse team) {
     this.id = id;
     this.firstName = firstName;
     this.middleName = middleName;
     this.lastName = lastName;
-    this.userEmail = userEmail;
+    this.email = email;
     this.team = team;
   }
 
@@ -42,8 +42,8 @@ public class EmployeeResponse implements Serializable {
     return lastName;
   }
 
-  public String getUserEmail() {
-    return userEmail;
+  public String getEmail() {
+    return email;
   }
 
   public TeamResponse getTeam() {
@@ -52,22 +52,24 @@ public class EmployeeResponse implements Serializable {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o)
+    if (this == o) {
       return true;
-    if (o == null || getClass() != o.getClass())
+    }
+    if (o == null || getClass() != o.getClass()) {
       return false;
+    }
     EmployeeResponse entity = (EmployeeResponse) o;
     return Objects.equals(this.id, entity.id) &&
         Objects.equals(this.firstName, entity.firstName) &&
         Objects.equals(this.middleName, entity.middleName) &&
         Objects.equals(this.lastName, entity.lastName) &&
-        Objects.equals(this.userEmail, entity.userEmail) &&
+        Objects.equals(this.email, entity.email) &&
         Objects.equals(this.team, entity.team);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, firstName, middleName, lastName, userEmail, team);
+    return Objects.hash(id, firstName, middleName, lastName, email, team);
   }
 
   @Override
@@ -77,7 +79,7 @@ public class EmployeeResponse implements Serializable {
         "firstName = " + firstName + ", " +
         "middleName = " + middleName + ", " +
         "lastName = " + lastName + ", " +
-        "userEmail = " + userEmail + ", " +
+        "userEmail = " + email + ", " +
         "team = " + team + ")";
   }
 }

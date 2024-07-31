@@ -8,15 +8,19 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedAttributeNode;
+import jakarta.persistence.NamedEntityGraph;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "employee")
+@NamedEntityGraph(name = "Employee.team", attributeNodes = {@NamedAttributeNode("team")})
 public class Employee extends BaseEntity {
 
   @Size(max = 255)
@@ -62,10 +66,24 @@ public class Employee extends BaseEntity {
   @JoinTable(name = "employee_role",
       joinColumns = @JoinColumn(name = "employee_id"),
       inverseJoinColumns = @JoinColumn(name = "role_id"))
-  private Set<Role> roles = new LinkedHashSet<>();
+  private Set<Role> roles = new HashSet<>();
 
   @OneToMany(mappedBy = "employee")
   private Set<Leave> leaves = new LinkedHashSet<>();
+
+  public Employee() {
+  }
+
+  public Employee(String firstName, String middleName, String lastName, String username,
+      String password, String email, Team team) {
+    this.firstName = firstName;
+    this.middleName = middleName;
+    this.lastName = lastName;
+    this.username = username;
+    this.password = password;
+    this.email = email;
+    this.team = team;
+  }
 
   public String getFirstName() {
     return firstName;
