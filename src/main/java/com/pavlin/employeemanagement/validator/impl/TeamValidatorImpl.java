@@ -29,23 +29,24 @@ public class TeamValidatorImpl implements TeamValidator {
   @Override
   public void validateCreation(TeamRequest request) {
     checkIfDuplicateTeamName(request);
-    if (Objects.nonNull(request.getLeadId())) {
+    if (Objects.nonNull(request.leadId())) {
       checkIfDuplicateLead(request);
     }
-    checkIfEmployeeExists(request.getLeadId());
+    checkIfEmployeeExists(request.leadId());
   }
 
   @Override
   public void validateUpdate(TeamRequest request, Team entity) {
-    if (!Objects.equals(entity.getName(), request.getName())) {
+    if (!Objects.equals(entity.getName(), request.name())) {
       checkIfDuplicateTeamName(request);
     }
 
-    if (Objects.nonNull(request.getLeadId()) && isEntityLeadDifferent(request, entity)) {
+    // TODO Rewrite with Objects.equals
+    if (Objects.nonNull(request.leadId()) && isEntityLeadDifferent(request, entity)) {
       checkIfDuplicateLead(request);
     }
 
-    checkIfEmployeeExists(request.getLeadId());
+    checkIfEmployeeExists(request.leadId());
   }
 
   private void checkIfEmployeeExists(UUID leadId) {
@@ -55,7 +56,7 @@ public class TeamValidatorImpl implements TeamValidator {
   }
 
   private void checkIfDuplicateLead(TeamRequest teamRequest) {
-    UUID leadId = teamRequest.getLeadId();
+    UUID leadId = teamRequest.leadId();
 
     if (teamRepository.existsByLead_Id(leadId)) {
       throw new DuplicateEntryException(messageUtil.getMessage("team.duplicate.lead", leadId));
@@ -63,14 +64,14 @@ public class TeamValidatorImpl implements TeamValidator {
   }
 
   private void checkIfDuplicateTeamName(TeamRequest teamRequest) {
-    if (teamRepository.existsByName(teamRequest.getName())) {
+    if (teamRepository.existsByName(teamRequest.name())) {
       throw new DuplicateEntryException(
-          messageUtil.getMessage("team.duplicate.name", teamRequest.getName()));
+          messageUtil.getMessage("team.duplicate.name", teamRequest.name()));
     }
   }
 
   private boolean isEntityLeadDifferent(TeamRequest request, Team entity) {
-    return Objects.isNull(entity.getLead()) || !request.getLeadId()
+    return Objects.isNull(entity.getLead()) || !request.leadId()
         .equals(entity.getLead().getId());
   }
 }
