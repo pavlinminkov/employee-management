@@ -28,29 +28,29 @@ public class EmployeeMapper {
 
   public Employee toEmployee(EmployeeRequest employeeRequest) {
     Team team = new Team();
-    team.setId(employeeRequest.getTeamId());
+    team.setId(employeeRequest.teamId());
 
     return new Employee(
-        employeeRequest.getFirstName(),
-        employeeRequest.getMiddleName(),
-        employeeRequest.getLastName(),
-        employeeRequest.getUsername(),
-        employeeRequest.getPassword(),
-        employeeRequest.getEmail(),
+        employeeRequest.firstName(),
+        employeeRequest.middleName(),
+        employeeRequest.lastName(),
+        employeeRequest.username(),
+        employeeRequest.password(),
+        employeeRequest.email(),
         team
     );
   }
 
   public Employee toEmployee(EmployeeRequest employeeRequest, Employee employee) {
     Team team = new Team();
-    team.setId(employeeRequest.getTeamId());
+    team.setId(employeeRequest.teamId());
 
-    employee.setFirstName(employeeRequest.getFirstName());
-    employee.setMiddleName(employeeRequest.getMiddleName());
-    employee.setLastName(employeeRequest.getLastName());
-    employee.setUsername(employeeRequest.getUsername());
-    employee.setPassword(employeeRequest.getPassword());
-    employee.setEmail(employeeRequest.getEmail());
+    employee.setFirstName(employeeRequest.firstName());
+    employee.setMiddleName(employeeRequest.middleName());
+    employee.setLastName(employeeRequest.lastName());
+    employee.setUsername(employeeRequest.username());
+    employee.setPassword(employeeRequest.password());
+    employee.setEmail(employeeRequest.email());
     employee.setTeam(team);
 
     return employee;

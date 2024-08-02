@@ -10,15 +10,12 @@ import java.util.UUID;
 import org.hibernate.proxy.HibernateProxy;
 
 @MappedSuperclass
-public class BaseEntity {
+public abstract class BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
   @Column(name = "id", updatable = false, nullable = false)
   protected UUID id;
-
-  protected BaseEntity() {
-  }
 
   public UUID getId() {
     return id;

@@ -6,6 +6,7 @@ import com.pavlin.employeemanagement.exception.common.NotFoundException;
 import com.pavlin.employeemanagement.mapper.EmployeeMapper;
 import com.pavlin.employeemanagement.model.Employee;
 import com.pavlin.employeemanagement.repository.EmployeeRepository;
+import com.pavlin.employeemanagement.repository.TeamRepository;
 import com.pavlin.employeemanagement.service.EmployeeService;
 import com.pavlin.employeemanagement.util.MessageUtil;
 import com.pavlin.employeemanagement.validator.EmployeeValidator;
@@ -26,15 +27,17 @@ public class EmployeeServiceImpl implements EmployeeService {
   private final MessageUtil messageUtil;
   private final PasswordEncoder passwordEncoder;
   private final Logger logger = LoggerFactory.getLogger(EmployeeServiceImpl.class);
+  private final TeamRepository teamRepository;
 
   public EmployeeServiceImpl(EmployeeRepository employeeRepository, EmployeeMapper employeeMapper,
       EmployeeValidator employeeValidator, MessageUtil messageUtil,
-      PasswordEncoder passwordEncoder) {
+      PasswordEncoder passwordEncoder, TeamRepository teamRepository) {
     this.employeeRepository = employeeRepository;
     this.employeeMapper = employeeMapper;
     this.employeeValidator = employeeValidator;
     this.messageUtil = messageUtil;
     this.passwordEncoder = passwordEncoder;
+    this.teamRepository = teamRepository;
   }
 
   @Override
@@ -61,7 +64,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     employeeValidator.validateCreation(employeeRequest);
 
     Employee employee = employeeMapper.toEmployee(employeeRequest);
-    employee.setPassword(passwordEncoder.encode(employeeRequest.getPassword()));
+    employee.setPassword(passwordEncoder.encode(employeeRequest.password()));
     employee.setIsEnabled(true);
 
     return employeeRepository.save(employee).getId();
@@ -76,7 +79,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     employeeValidator.validateUpdate(employeeRequest, employee);
 
     employee = employeeMapper.toEmployee(employeeRequest, employee);
-    employee.setPassword(passwordEncoder.encode(employeeRequest.getPassword()));
+    employee.setPassword(passwordEncoder.encode(employeeRequest.password()));
 
     employeeRepository.save(employee);
   }
@@ -87,6 +90,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     logger.debug("Deleting employee with id: {}", id);
 
     Employee employee = retrieveEmployeeById(id);
+    unsetTeamLeadIfEmployeeIsLead(id);
 
     employeeRepository.delete(employee);
   }
@@ -97,5 +101,12 @@ public class EmployeeServiceImpl implements EmployeeService {
         .orElseThrow(() -> new NotFoundException(
             messageUtil.getMessage("employee.notfound", id)
         ));
+  }
+
+  private void unsetTeamLeadIfEmployeeIsLead(UUID employeeId) {
+    teamRepository.findByLead_Id(employeeId).ifPresent(team -> {
+      team.setLead(null);
+      teamRepository.save(team);
+    });
   }
 }

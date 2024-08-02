@@ -41,7 +41,6 @@ public class TeamValidatorImpl implements TeamValidator {
       checkIfDuplicateTeamName(request);
     }
 
-    // TODO Rewrite with Objects.equals
     if (Objects.nonNull(request.leadId()) && isEntityLeadDifferent(request, entity)) {
       checkIfDuplicateLead(request);
     }
@@ -71,7 +70,10 @@ public class TeamValidatorImpl implements TeamValidator {
   }
 
   private boolean isEntityLeadDifferent(TeamRequest request, Team entity) {
-    return Objects.isNull(entity.getLead()) || !request.leadId()
-        .equals(entity.getLead().getId());
+    if (Objects.isNull(entity.getLead())) {
+      return true;
+    }
+
+    return !request.leadId().equals(entity.getLead().getId());
   }
 }
