@@ -1,8 +1,6 @@
 package com.pavlin.employeemanagement.validator.common;
 
-public interface BaseValidator<T, U> {
+public interface CreateValidator<T> {
 
   void validateCreation(T request);
-
-  void validateUpdate(T request, U entity);
 }
