@@ -168,25 +168,11 @@ public class Employee extends BaseEntity {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    if (!super.equals(o)) {
-      return false;
-    }
-
-    Employee employee = (Employee) o;
-    return getUsername().equals(employee.getUsername()) && getEmail().equals(employee.getEmail());
+    return super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    int result = super.hashCode();
-    result = 31 * result + getUsername().hashCode();
-    result = 31 * result + getEmail().hashCode();
-    return result;
+    return super.hashCode();
   }
 }

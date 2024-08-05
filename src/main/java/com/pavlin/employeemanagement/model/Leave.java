@@ -113,27 +113,11 @@ public class Leave extends BaseEntity {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    if (!super.equals(o)) {
-      return false;
-    }
-
-    Leave leave = (Leave) o;
-    return getStartDate().equals(leave.getStartDate()) && getEndDate().equals(leave.getEndDate())
-        && getEmployee().equals(leave.getEmployee());
+    return super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    int result = super.hashCode();
-    result = 31 * result + getStartDate().hashCode();
-    result = 31 * result + getEndDate().hashCode();
-    result = 31 * result + getEmployee().hashCode();
-    return result;
+    return super.hashCode();
   }
 }

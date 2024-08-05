@@ -24,27 +24,13 @@ public class Privilege extends BaseEntity {
     this.name = name;
   }
 
-
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    if (!super.equals(o)) {
-      return false;
-    }
-
-    Privilege privilege = (Privilege) o;
-    return getName().equals(privilege.getName());
+    return super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    int result = super.hashCode();
-    result = 31 * result + getName().hashCode();
-    return result;
+    return super.hashCode();
   }
 }
