@@ -15,8 +15,8 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import org.hibernate.annotations.ColumnDefault;
 
 @Entity
@@ -53,7 +53,7 @@ public class Leave extends BaseEntity {
   private Employee employee;
 
   @OneToMany(mappedBy = "leave")
-  private Set<LeaveAction> leaveActions = new LinkedHashSet<>();
+  private List<LeaveAction> leaveActions = new ArrayList<>();
 
   public LocalDate getRequestDate() {
     return requestDate;
@@ -103,11 +103,11 @@ public class Leave extends BaseEntity {
     this.employee = employee;
   }
 
-  public Set<LeaveAction> getLeaveActions() {
+  public List<LeaveAction> getLeaveActions() {
     return leaveActions;
   }
 
-  public void setLeaveActions(Set<LeaveAction> leaveActions) {
+  public void setLeaveActions(List<LeaveAction> leaveActions) {
     this.leaveActions = leaveActions;
   }
 
