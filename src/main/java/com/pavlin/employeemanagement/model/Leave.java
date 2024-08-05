@@ -12,6 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
@@ -19,7 +20,8 @@ import java.util.Set;
 import org.hibernate.annotations.ColumnDefault;
 
 @Entity
-@Table(name = "`leave`")
+@Table(name = "`leave`",
+    uniqueConstraints = @UniqueConstraint(columnNames = {"employee_id", "start_date", "end_date"}))
 public class Leave extends BaseEntity {
 
   @NotNull
