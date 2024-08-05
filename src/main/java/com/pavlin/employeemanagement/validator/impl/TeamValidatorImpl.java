@@ -3,6 +3,7 @@ package com.pavlin.employeemanagement.validator.impl;
 import com.pavlin.employeemanagement.dto.TeamRequest;
 import com.pavlin.employeemanagement.exception.common.DuplicateEntryException;
 import com.pavlin.employeemanagement.exception.common.NotFoundException;
+import com.pavlin.employeemanagement.exception.common.TeamNotEmptyException;
 import com.pavlin.employeemanagement.model.Team;
 import com.pavlin.employeemanagement.repository.EmployeeRepository;
 import com.pavlin.employeemanagement.repository.TeamRepository;
@@ -48,9 +49,14 @@ public class TeamValidatorImpl implements TeamValidator {
     checkIfEmployeeExists(request.leadId());
   }
 
+  @Override
+  public void validateDeletion(Team entity) {
+    checkIfTeamIsEmpty(entity);
+  }
+
   private void checkIfEmployeeExists(UUID leadId) {
     if (Objects.nonNull(leadId) && !employeeRepository.existsById(leadId)) {
-      throw new NotFoundException(messageUtil.getMessage("employee.notfound", leadId));
+      throw new NotFoundException(messageUtil.getMessage("employee.not_found", leadId));
     }
   }
 
@@ -66,6 +72,12 @@ public class TeamValidatorImpl implements TeamValidator {
     if (teamRepository.existsByName(teamRequest.name())) {
       throw new DuplicateEntryException(
           messageUtil.getMessage("team.duplicate.name", teamRequest.name()));
+    }
+  }
+
+  private void checkIfTeamIsEmpty(Team team) {
+    if (teamRepository.hasEmployees(team)) {
+      throw new TeamNotEmptyException(messageUtil.getMessage("team.not_empty", team.getId()));
     }
   }
 

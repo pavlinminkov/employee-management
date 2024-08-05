@@ -2,6 +2,7 @@ package com.pavlin.employeemanagement.exception;
 
 import com.pavlin.employeemanagement.exception.common.DuplicateEntryException;
 import com.pavlin.employeemanagement.exception.common.NotFoundException;
+import com.pavlin.employeemanagement.exception.common.TeamNotEmptyException;
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
@@ -19,6 +20,12 @@ public class GlobalExceptionHandler {
 
   private final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
+  @ExceptionHandler(value = {TeamNotEmptyException.class})
+  public ResponseEntity<Object> handleTeamNotEmptyException(TeamNotEmptyException e) {
+    logger.info(e.getMessage(), e);
+    return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+  }
+  
   @ExceptionHandler(value = {DuplicateEntryException.class})
   public ResponseEntity<Object> handleDuplicateEntryException(DuplicateEntryException e) {
     logger.info(e.getMessage(), e);

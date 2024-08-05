@@ -46,7 +46,7 @@ public class EmployeeValidatorImpl implements EmployeeValidator {
 
   private void checkIfTeamExists(UUID teamId) {
     if (!teamRepository.existsById(teamId)) {
-      throw new NotFoundException(messageUtil.getMessage("team.notfound", teamId));
+      throw new NotFoundException(messageUtil.getMessage("team.not_found", teamId));
     }
   }
 

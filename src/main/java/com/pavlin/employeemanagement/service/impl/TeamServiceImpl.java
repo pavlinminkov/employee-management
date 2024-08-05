@@ -76,6 +76,9 @@ public class TeamServiceImpl implements TeamService {
   public void deleteTeam(UUID id) {
     logger.debug("Deleting team with id: {}", id);
 
+    Team team = retrieveTeamById(id);
+    teamValidator.validateDeletion(team);
+
     teamRepository.delete(retrieveTeamById(id));
   }
 
@@ -83,7 +86,7 @@ public class TeamServiceImpl implements TeamService {
     return teamRepository
         .findById(id)
         .orElseThrow(() -> new NotFoundException(
-            messageUtil.getMessage("team.notfound", id)
+            messageUtil.getMessage("team.not_found", id)
         ));
   }
 }

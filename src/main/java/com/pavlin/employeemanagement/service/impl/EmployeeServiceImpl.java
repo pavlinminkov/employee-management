@@ -99,7 +99,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     return employeeRepository
         .findById(id)
         .orElseThrow(() -> new NotFoundException(
-            messageUtil.getMessage("employee.notfound", id)
+            messageUtil.getMessage("employee.not_found", id)
         ));
   }
 
