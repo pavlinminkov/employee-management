@@ -26,6 +26,7 @@ public class LeaveAction extends BaseEntity {
   @Column(name = "date", nullable = false)
   private LocalDate date;
 
+  // TODO Use the id not the object for equals and hashcode
   @NotNull
   @ManyToOne(fetch = FetchType.EAGER, optional = false)
   @JoinColumn(name = "leave_id", nullable = false)

@@ -28,20 +28,20 @@ public class EmployeeValidatorImpl implements EmployeeValidator {
 
   @Override
   public void validateCreation(EmployeeRequest request) {
-    checkIfTeamExists(request.getTeamId());
+    checkIfTeamExists(request.teamId());
     checkIfDuplicateUsername(request);
     checkIfDuplicateEmail(request);
   }
 
   @Override
   public void validateUpdate(EmployeeRequest request, Employee entity) {
-    if (!Objects.equals(request.getUsername(), entity.getUsername())) {
+    if (!Objects.equals(request.username(), entity.getUsername())) {
       checkIfDuplicateUsername(request);
     }
-    if (!Objects.equals(request.getEmail(), entity.getEmail())) {
+    if (!Objects.equals(request.email(), entity.getEmail())) {
       checkIfDuplicateEmail(request);
     }
-    checkIfTeamExists(request.getTeamId());
+    checkIfTeamExists(request.teamId());
   }
 
   private void checkIfTeamExists(UUID teamId) {
@@ -51,17 +51,17 @@ public class EmployeeValidatorImpl implements EmployeeValidator {
   }
 
   private void checkIfDuplicateUsername(EmployeeRequest employeeRequest) {
-    if (employeeRepository.existsByUsername(employeeRequest.getUsername())) {
+    if (employeeRepository.existsByUsername(employeeRequest.username())) {
       throw new DuplicateEntryException(
-          messageUtil.getMessage("employee.duplicate.username", employeeRequest.getUsername())
+          messageUtil.getMessage("employee.duplicate.username", employeeRequest.username())
       );
     }
   }
 
   private void checkIfDuplicateEmail(EmployeeRequest employeeRequest) {
-    if (employeeRepository.existsByEmail(employeeRequest.getEmail())) {
+    if (employeeRepository.existsByEmail(employeeRequest.email())) {
       throw new DuplicateEntryException(
-          messageUtil.getMessage("employee.duplicate.email", employeeRequest.getEmail())
+          messageUtil.getMessage("employee.duplicate.email", employeeRequest.email())
       );
     }
   }

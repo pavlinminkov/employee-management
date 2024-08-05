@@ -19,7 +19,7 @@ public class TeamMapper {
 
   public Team toTeam(TeamRequest teamRequest) {
     Team team = new Team();
-    team.setName(teamRequest.getName());
+    team.setName(teamRequest.name());
 
     setEmployee(teamRequest, team);
 
@@ -27,7 +27,7 @@ public class TeamMapper {
   }
 
   public Team toTeam(TeamRequest teamRequest, Team team) {
-    team.setName(teamRequest.getName());
+    team.setName(teamRequest.name());
 
     setEmployee(teamRequest, team);
 
@@ -35,13 +35,13 @@ public class TeamMapper {
   }
 
   private static void setEmployee(TeamRequest teamRequest, Team team) {
-    if (teamRequest.getLeadId() == null) {
+    if (teamRequest.leadId() == null) {
       team.setLead(null);
       return;
     }
 
     Employee employee = new Employee();
-    employee.setId(teamRequest.getLeadId());
+    employee.setId(teamRequest.leadId());
 
     team.setLead(employee);
   }
