@@ -14,8 +14,9 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -69,7 +70,7 @@ public class Employee extends BaseEntity {
   private Set<Role> roles = new HashSet<>();
 
   @OneToMany(mappedBy = "employee")
-  private Set<Leave> leaves = new LinkedHashSet<>();
+  private List<Leave> leaves = new ArrayList<>();
 
   public Employee() {
   }
@@ -157,11 +158,11 @@ public class Employee extends BaseEntity {
     this.roles = roles;
   }
 
-  public Set<Leave> getLeaves() {
+  public List<Leave> getLeaves() {
     return leaves;
   }
 
-  public void setLeaves(Set<Leave> leaves) {
+  public void setLeaves(List<Leave> leaves) {
     this.leaves = leaves;
   }
 

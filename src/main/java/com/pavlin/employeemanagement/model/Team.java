@@ -10,8 +10,8 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "team")
@@ -27,7 +27,7 @@ public class Team extends BaseEntity {
   private Employee lead;
 
   @OneToMany(mappedBy = "team")
-  private Set<Employee> employees = new LinkedHashSet<>();
+  private List<Employee> employees = new ArrayList<>();
 
   public Team() {
   }
@@ -57,11 +57,11 @@ public class Team extends BaseEntity {
     this.lead = lead;
   }
 
-  public Set<Employee> getEmployees() {
+  public List<Employee> getEmployees() {
     return employees;
   }
 
-  public void setEmployees(Set<Employee> employees) {
+  public void setEmployees(List<Employee> employees) {
     this.employees = employees;
   }
 
