@@ -10,11 +10,13 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "leave_action")
+@Table(name = "leave_action",
+    uniqueConstraints = @UniqueConstraint(columnNames = {"leave_id", "employee_id"}))
 public class LeaveAction extends BaseEntity {
 
   @NotNull

@@ -19,11 +19,11 @@ public class Team extends BaseEntity {
 
   @Size(max = 255)
   @NotNull
-  @Column(name = "name", nullable = false)
+  @Column(name = "name", nullable = false, unique = true)
   private String name;
 
   @OneToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "lead_id")
+  @JoinColumn(name = "lead_id", unique = true)
   private Employee lead;
 
   @OneToMany(mappedBy = "team")
