@@ -67,24 +67,11 @@ public class Team extends BaseEntity {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    if (!super.equals(o)) {
-      return false;
-    }
-
-    Team team = (Team) o;
-    return getName().equals(team.getName());
+    return super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    int result = super.hashCode();
-    result = 31 * result + getName().hashCode();
-    return result;
+    return super.hashCode();
   }
 }

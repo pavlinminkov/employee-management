@@ -28,14 +28,13 @@ public class LeaveAction extends BaseEntity {
   @Column(name = "date", nullable = false)
   private LocalDate date;
 
-  // TODO Use the id not the object for equals and hashcode
   @NotNull
-  @ManyToOne(fetch = FetchType.EAGER, optional = false)
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "leave_id", nullable = false)
   private Leave leave;
 
   @NotNull
-  @ManyToOne(fetch = FetchType.EAGER, optional = false)
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "employee_id", nullable = false)
   private Employee employee;
 
@@ -73,28 +72,11 @@ public class LeaveAction extends BaseEntity {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    if (!super.equals(o)) {
-      return false;
-    }
-
-    LeaveAction that = (LeaveAction) o;
-    return getType() == that.getType() && getDate().equals(that.getDate()) && getLeave().equals(
-        that.getLeave()) && getEmployee().equals(that.getEmployee());
+    return super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    int result = super.hashCode();
-    result = 31 * result + getType().hashCode();
-    result = 31 * result + getDate().hashCode();
-    result = 31 * result + getLeave().hashCode();
-    result = 31 * result + getEmployee().hashCode();
-    return result;
+    return super.hashCode();
   }
 }
