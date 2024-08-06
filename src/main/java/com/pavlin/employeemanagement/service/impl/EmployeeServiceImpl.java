@@ -11,13 +11,14 @@ import com.pavlin.employeemanagement.repository.TeamRepository;
 import com.pavlin.employeemanagement.service.EmployeeService;
 import com.pavlin.employeemanagement.util.MessageUtil;
 import com.pavlin.employeemanagement.validator.EmployeeValidator;
-import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -85,7 +86,7 @@ public class EmployeeServiceImpl implements EmployeeService {
   }
 
   @Override
-  @Transactional
+  @Transactional(propagation = Propagation.MANDATORY)
   public void deleteEmployee(UUID id) {
     logger.debug("Deleting employee with id: {}", id);
 
