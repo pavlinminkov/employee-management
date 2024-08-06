@@ -1,6 +1,7 @@
 package com.pavlin.employeemanagement.model;
 
 import com.pavlin.employeemanagement.model.common.BaseEntity;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -69,7 +70,7 @@ public class Employee extends BaseEntity {
       inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Set<Role> roles = new HashSet<>();
 
-  @OneToMany(mappedBy = "employee")
+  @OneToMany(mappedBy = "employee", cascade = CascadeType.REMOVE)
   private List<Leave> leaves = new ArrayList<>();
 
   public Employee() {

@@ -3,6 +3,7 @@ package com.pavlin.employeemanagement.model;
 import com.pavlin.employeemanagement.model.common.BaseEntity;
 import com.pavlin.employeemanagement.model.common.LeaveState;
 import com.pavlin.employeemanagement.model.common.LeaveType;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -48,11 +49,11 @@ public class Leave extends BaseEntity {
   private LeaveType type;
 
   @NotNull
-  @ManyToOne(fetch = FetchType.EAGER, optional = false)
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "employee_id", nullable = false)
   private Employee employee;
 
-  @OneToMany(mappedBy = "leave")
+  @OneToMany(mappedBy = "leave", cascade = CascadeType.REMOVE)
   private List<LeaveAction> leaveActions = new ArrayList<>();
 
   public LocalDate getRequestDate() {
