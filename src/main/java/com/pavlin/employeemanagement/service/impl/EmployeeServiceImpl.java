@@ -1,7 +1,8 @@
 package com.pavlin.employeemanagement.service.impl;
 
-import com.pavlin.employeemanagement.dto.EmployeeRequest;
+import com.pavlin.employeemanagement.dto.EmployeeInsertRequest;
 import com.pavlin.employeemanagement.dto.EmployeeResponse;
+import com.pavlin.employeemanagement.dto.EmployeeUpdateRequest;
 import com.pavlin.employeemanagement.exception.common.NotFoundException;
 import com.pavlin.employeemanagement.mapper.EmployeeMapper;
 import com.pavlin.employeemanagement.model.Employee;
@@ -58,13 +59,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 
   @Override
   @Transactional
-  public UUID createEmployee(EmployeeRequest employeeRequest) {
+  public UUID createEmployee(EmployeeInsertRequest employeeInsertRequest) {
     logger.debug("Creating a new employee");
 
-    employeeValidator.validateCreation(employeeRequest);
+    employeeValidator.validateCreation(employeeInsertRequest);
 
-    Employee employee = employeeMapper.toEmployee(employeeRequest);
-    employee.setPassword(passwordEncoder.encode(employeeRequest.password()));
+    Employee employee = employeeMapper.toEmployee(employeeInsertRequest);
+    employee.setPassword(passwordEncoder.encode(employeeInsertRequest.password()));
     employee.setIsEnabled(true);
 
     return employeeRepository.save(employee).getId();
@@ -72,14 +73,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 
   @Override
   @Transactional
-  public void updateEmployee(UUID id, EmployeeRequest employeeRequest) {
+  public void updateEmployee(UUID id, EmployeeUpdateRequest employeeUpdateRequest) {
     logger.debug("Updating employee with id: {}", id);
 
     Employee employee = retrieveEmployeeById(id);
-    employeeValidator.validateUpdate(employeeRequest, employee);
+    employeeValidator.validateUpdate(employeeUpdateRequest, employee);
 
-    employee = employeeMapper.toEmployee(employeeRequest, employee);
-    employee.setPassword(passwordEncoder.encode(employeeRequest.password()));
+    employee = employeeMapper.toEmployee(employeeUpdateRequest, employee);
 
     employeeRepository.save(employee);
   }

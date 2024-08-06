@@ -1,7 +1,8 @@
 package com.pavlin.employeemanagement.mapper;
 
-import com.pavlin.employeemanagement.dto.EmployeeRequest;
+import com.pavlin.employeemanagement.dto.EmployeeInsertRequest;
 import com.pavlin.employeemanagement.dto.EmployeeResponse;
+import com.pavlin.employeemanagement.dto.EmployeeUpdateRequest;
 import com.pavlin.employeemanagement.model.Employee;
 import com.pavlin.employeemanagement.model.Team;
 import org.springframework.stereotype.Component;
@@ -26,31 +27,30 @@ public class EmployeeMapper {
     );
   }
 
-  public Employee toEmployee(EmployeeRequest employeeRequest) {
+  public Employee toEmployee(EmployeeInsertRequest employeeInsertRequest) {
     Team team = new Team();
-    team.setId(employeeRequest.teamId());
+    team.setId(employeeInsertRequest.teamId());
 
     return new Employee(
-        employeeRequest.firstName(),
-        employeeRequest.middleName(),
-        employeeRequest.lastName(),
-        employeeRequest.username(),
-        employeeRequest.password(),
-        employeeRequest.email(),
+        employeeInsertRequest.firstName(),
+        employeeInsertRequest.middleName(),
+        employeeInsertRequest.lastName(),
+        employeeInsertRequest.username(),
+        employeeInsertRequest.password(),
+        employeeInsertRequest.email(),
         team
     );
   }
 
-  public Employee toEmployee(EmployeeRequest employeeRequest, Employee employee) {
+  public Employee toEmployee(EmployeeUpdateRequest employeeUpdateRequest, Employee employee) {
     Team team = new Team();
-    team.setId(employeeRequest.teamId());
+    team.setId(employeeUpdateRequest.teamId());
 
-    employee.setFirstName(employeeRequest.firstName());
-    employee.setMiddleName(employeeRequest.middleName());
-    employee.setLastName(employeeRequest.lastName());
-    employee.setUsername(employeeRequest.username());
-    employee.setPassword(employeeRequest.password());
-    employee.setEmail(employeeRequest.email());
+    employee.setFirstName(employeeUpdateRequest.firstName());
+    employee.setMiddleName(employeeUpdateRequest.middleName());
+    employee.setLastName(employeeUpdateRequest.lastName());
+    employee.setUsername(employeeUpdateRequest.username());
+    employee.setEmail(employeeUpdateRequest.email());
     employee.setTeam(team);
 
     return employee;

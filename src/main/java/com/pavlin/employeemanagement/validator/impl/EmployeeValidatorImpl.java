@@ -1,6 +1,7 @@
 package com.pavlin.employeemanagement.validator.impl;
 
-import com.pavlin.employeemanagement.dto.EmployeeRequest;
+import com.pavlin.employeemanagement.dto.EmployeeInsertRequest;
+import com.pavlin.employeemanagement.dto.EmployeeUpdateRequest;
 import com.pavlin.employeemanagement.exception.common.DuplicateEntryException;
 import com.pavlin.employeemanagement.exception.common.NotFoundException;
 import com.pavlin.employeemanagement.model.Employee;
@@ -27,19 +28,19 @@ public class EmployeeValidatorImpl implements EmployeeValidator {
   }
 
   @Override
-  public void validateCreation(EmployeeRequest request) {
+  public void validateCreation(EmployeeInsertRequest request) {
     checkIfTeamExists(request.teamId());
-    checkIfDuplicateUsername(request);
-    checkIfDuplicateEmail(request);
+    checkIfDuplicateUsername(request.username());
+    checkIfDuplicateEmail(request.email());
   }
 
   @Override
-  public void validateUpdate(EmployeeRequest request, Employee entity) {
+  public void validateUpdate(EmployeeUpdateRequest request, Employee entity) {
     if (!Objects.equals(request.username(), entity.getUsername())) {
-      checkIfDuplicateUsername(request);
+      checkIfDuplicateUsername(request.username());
     }
     if (!Objects.equals(request.email(), entity.getEmail())) {
-      checkIfDuplicateEmail(request);
+      checkIfDuplicateEmail(request.email());
     }
     checkIfTeamExists(request.teamId());
   }
@@ -50,18 +51,18 @@ public class EmployeeValidatorImpl implements EmployeeValidator {
     }
   }
 
-  private void checkIfDuplicateUsername(EmployeeRequest employeeRequest) {
-    if (employeeRepository.existsByUsername(employeeRequest.username())) {
+  private void checkIfDuplicateUsername(String username) {
+    if (employeeRepository.existsByUsername(username)) {
       throw new DuplicateEntryException(
-          messageUtil.getMessage("employee.duplicate.username", employeeRequest.username())
+          messageUtil.getMessage("employee.duplicate.username", username)
       );
     }
   }
 
-  private void checkIfDuplicateEmail(EmployeeRequest employeeRequest) {
-    if (employeeRepository.existsByEmail(employeeRequest.email())) {
+  private void checkIfDuplicateEmail(String email) {
+    if (employeeRepository.existsByEmail(email)) {
       throw new DuplicateEntryException(
-          messageUtil.getMessage("employee.duplicate.email", employeeRequest.email())
+          messageUtil.getMessage("employee.duplicate.email", email)
       );
     }
   }

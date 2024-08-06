@@ -1,7 +1,8 @@
 package com.pavlin.employeemanagement.controller;
 
-import com.pavlin.employeemanagement.dto.EmployeeRequest;
+import com.pavlin.employeemanagement.dto.EmployeeInsertRequest;
 import com.pavlin.employeemanagement.dto.EmployeeResponse;
+import com.pavlin.employeemanagement.dto.EmployeeUpdateRequest;
 import com.pavlin.employeemanagement.service.EmployeeService;
 import jakarta.validation.Valid;
 import java.net.URI;
@@ -40,8 +41,8 @@ public class EmployeeController {
 
   @PostMapping
   public ResponseEntity<EmployeeResponse> createEmployee(
-      @Valid @RequestBody EmployeeRequest employeeRequest) {
-    UUID employeeId = employeeService.createEmployee(employeeRequest);
+      @Valid @RequestBody EmployeeInsertRequest employeeInsertRequest) {
+    UUID employeeId = employeeService.createEmployee(employeeInsertRequest);
     URI location = ServletUriComponentsBuilder
         .fromCurrentContextPath()
         .path("/employees/{id}")
@@ -54,9 +55,9 @@ public class EmployeeController {
   @PutMapping("/{id}")
   public ResponseEntity<Void> updateEmployee(
       @PathVariable UUID id,
-      @Valid @RequestBody EmployeeRequest employeeRequest
+      @Valid @RequestBody EmployeeUpdateRequest employeeUpdateRequest
   ) {
-    employeeService.updateEmployee(id, employeeRequest);
+    employeeService.updateEmployee(id, employeeUpdateRequest);
 
     return ResponseEntity.noContent().build();
   }
