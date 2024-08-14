@@ -9,6 +9,6 @@ import com.pavlin.employeemanagement.validator.common.UpdateValidator;
 public interface TeamValidator extends
     CreateValidator<TeamRequest>,
     UpdateValidator<TeamRequest, Team>,
-    DeleteValidator<Team> {
+    DeleteValidator {
 
 }

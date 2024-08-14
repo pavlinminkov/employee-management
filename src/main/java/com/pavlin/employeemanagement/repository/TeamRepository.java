@@ -15,6 +15,6 @@ public interface TeamRepository extends JpaRepository<Team, UUID> {
 
   Optional<Team> findByLead_Id(UUID id);
 
-  @Query("select count(e) > 0 from Employee e where e.team = :team")
-  boolean hasEmployees(@Param("team") Team team);
+  @Query("select count(e) > 0 from Employee e where e.team.id = :id")
+  boolean hasEmployees(@Param("id") UUID id);
 }

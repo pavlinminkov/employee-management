@@ -1,6 +1,8 @@
 package com.pavlin.employeemanagement.validator.common;
 
-public interface DeleteValidator<T> {
+import java.util.UUID;
 
-  void validateDeletion(T entity);
+public interface DeleteValidator {
+
+  void validateDeletion(UUID id);
 }

@@ -87,10 +87,10 @@ public class EmployeeServiceImpl implements EmployeeService {
   public void deleteEmployee(UUID id) {
     logger.debug("Deleting employee with id: {}", id);
 
-    Employee employee = retrieveEmployeeById(id);
+    employeeValidator.validateDeletion(id);
     unsetTeamLeadIfEmployeeIsLead(id);
 
-    employeeRepository.delete(employee);
+    employeeRepository.deleteById(id);
   }
 
   private Employee retrieveEmployeeById(UUID id) {

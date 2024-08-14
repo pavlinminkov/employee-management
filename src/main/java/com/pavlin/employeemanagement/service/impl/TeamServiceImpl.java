@@ -72,10 +72,8 @@ public class TeamServiceImpl implements TeamService {
   public void deleteTeam(UUID id) {
     logger.debug("Deleting team with id: {}", id);
 
-    Team team = retrieveTeamById(id);
-    teamValidator.validateDeletion(team);
-
-    teamRepository.delete(retrieveTeamById(id));
+    teamValidator.validateDeletion(id);
+    teamRepository.deleteById(id);
   }
 
   private Team retrieveTeamById(UUID id) {

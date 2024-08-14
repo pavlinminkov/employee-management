@@ -45,6 +45,17 @@ public class EmployeeValidatorImpl implements EmployeeValidator {
     checkIfTeamExists(request.teamId());
   }
 
+  @Override
+  public void validateDeletion(UUID id) {
+    checkIfEmployeeExists(id);
+  }
+
+  private void checkIfEmployeeExists(UUID id) {
+    if (!employeeRepository.existsById(id)) {
+      throw new NotFoundException(messageUtil.getMessage("employee.not_found", id));
+    }
+  }
+
   private void checkIfTeamExists(UUID teamId) {
     if (!teamRepository.existsById(teamId)) {
       throw new NotFoundException(messageUtil.getMessage("team.not_found", teamId));
