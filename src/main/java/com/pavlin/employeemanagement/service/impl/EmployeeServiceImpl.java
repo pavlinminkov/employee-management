@@ -17,7 +17,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -59,7 +58,6 @@ public class EmployeeServiceImpl implements EmployeeService {
   }
 
   @Override
-  @Transactional
   public UUID createEmployee(EmployeeInsertRequest employeeInsertRequest) {
     logger.debug("Creating a new employee");
 
@@ -73,7 +71,6 @@ public class EmployeeServiceImpl implements EmployeeService {
   }
 
   @Override
-  @Transactional
   public void updateEmployee(UUID id, EmployeeUpdateRequest employeeUpdateRequest) {
     logger.debug("Updating employee with id: {}", id);
 
@@ -86,7 +83,7 @@ public class EmployeeServiceImpl implements EmployeeService {
   }
 
   @Override
-  @Transactional(propagation = Propagation.MANDATORY)
+  @Transactional
   public void deleteEmployee(UUID id) {
     logger.debug("Deleting employee with id: {}", id);
 

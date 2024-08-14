@@ -14,7 +14,6 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class TeamServiceImpl implements TeamService {
@@ -50,7 +49,6 @@ public class TeamServiceImpl implements TeamService {
   }
 
   @Override
-  @Transactional
   public UUID createTeam(TeamRequest teamRequest) {
     logger.debug("Creating a new team");
 
@@ -61,7 +59,6 @@ public class TeamServiceImpl implements TeamService {
   }
 
   @Override
-  @Transactional
   public void updateTeam(UUID id, TeamRequest teamRequest) {
     logger.debug("Updating team with id: {}", id);
 
@@ -72,7 +69,6 @@ public class TeamServiceImpl implements TeamService {
   }
 
   @Override
-  @Transactional
   public void deleteTeam(UUID id) {
     logger.debug("Deleting team with id: {}", id);
 
