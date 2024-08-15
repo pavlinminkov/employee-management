@@ -8,7 +8,7 @@ import com.pavlin.employeemanagement.model.Team;
 import com.pavlin.employeemanagement.repository.TeamRepository;
 import com.pavlin.employeemanagement.service.TeamService;
 import com.pavlin.employeemanagement.util.MessageUtil;
-import com.pavlin.employeemanagement.validator.TeamValidator;
+import com.pavlin.employeemanagement.validator.service.TeamValidator;
 import java.util.List;
 import java.util.UUID;
 import org.slf4j.Logger;

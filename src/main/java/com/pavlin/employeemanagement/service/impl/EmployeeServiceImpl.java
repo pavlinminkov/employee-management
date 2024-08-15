@@ -10,7 +10,7 @@ import com.pavlin.employeemanagement.repository.EmployeeRepository;
 import com.pavlin.employeemanagement.repository.TeamRepository;
 import com.pavlin.employeemanagement.service.EmployeeService;
 import com.pavlin.employeemanagement.util.MessageUtil;
-import com.pavlin.employeemanagement.validator.EmployeeValidator;
+import com.pavlin.employeemanagement.validator.service.common.EmployeeValidator;
 import java.util.List;
 import java.util.UUID;
 import org.slf4j.Logger;
