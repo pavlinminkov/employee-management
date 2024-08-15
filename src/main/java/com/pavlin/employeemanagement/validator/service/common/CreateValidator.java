@@ -1,4 +1,4 @@
-package com.pavlin.employeemanagement.validator.common;
+package com.pavlin.employeemanagement.validator.service.common;
 
 public interface CreateValidator<T> {
 

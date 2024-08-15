@@ -1,4 +1,4 @@
-package com.pavlin.employeemanagement.validator.impl;
+package com.pavlin.employeemanagement.validator.service.impl;
 
 import com.pavlin.employeemanagement.dto.TeamRequest;
 import com.pavlin.employeemanagement.exception.common.DuplicateEntryException;
@@ -8,7 +8,7 @@ import com.pavlin.employeemanagement.model.Team;
 import com.pavlin.employeemanagement.repository.EmployeeRepository;
 import com.pavlin.employeemanagement.repository.TeamRepository;
 import com.pavlin.employeemanagement.util.MessageUtil;
-import com.pavlin.employeemanagement.validator.TeamValidator;
+import com.pavlin.employeemanagement.validator.service.TeamValidator;
 import java.util.Objects;
 import java.util.UUID;
 import org.springframework.stereotype.Component;
@@ -20,7 +20,8 @@ public class TeamValidatorImpl implements TeamValidator {
   private final EmployeeRepository employeeRepository;
   private final MessageUtil messageUtil;
 
-  public TeamValidatorImpl(TeamRepository teamRepository, EmployeeRepository employeeRepository,
+  public TeamValidatorImpl(TeamRepository teamRepository,
+      EmployeeRepository employeeRepository,
       MessageUtil messageUtil) {
     this.teamRepository = teamRepository;
     this.employeeRepository = employeeRepository;
@@ -50,8 +51,15 @@ public class TeamValidatorImpl implements TeamValidator {
   }
 
   @Override
-  public void validateDeletion(Team entity) {
-    checkIfTeamIsEmpty(entity);
+  public void validateDeletion(UUID id) {
+    checkIfTeamExists(id);
+    checkIfTeamIsEmpty(id);
+  }
+
+  private void checkIfTeamExists(UUID leadId) {
+    if (!teamRepository.existsById(leadId)) {
+      throw new NotFoundException(messageUtil.getMessage("team.not_found", leadId));
+    }
   }
 
   private void checkIfEmployeeExists(UUID leadId) {
@@ -75,9 +83,9 @@ public class TeamValidatorImpl implements TeamValidator {
     }
   }
 
-  private void checkIfTeamIsEmpty(Team team) {
-    if (teamRepository.hasEmployees(team)) {
-      throw new TeamNotEmptyException(messageUtil.getMessage("team.not_empty", team.getId()));
+  private void checkIfTeamIsEmpty(UUID id) {
+    if (teamRepository.hasEmployees(id)) {
+      throw new TeamNotEmptyException(messageUtil.getMessage("team.not_empty", id));
     }
   }
 

@@ -92,8 +92,7 @@ CREATE TABLE `leave`
     state        ENUM ('PENDING', 'APPROVED', 'DENIED')            NOT NULL DEFAULT 'PENDING',
     type         ENUM ('SICK_LEAVE', 'PAID_LEAVE', 'UNPAID_LEAVE') NOT NULL,
     employee_id  BINARY(16)                                        NOT NULL,
-    FOREIGN KEY (employee_id) REFERENCES employee (id),
-    UNIQUE (employee_id, start_date, end_date)
+    FOREIGN KEY (employee_id) REFERENCES employee (id)
 );
 
 CREATE TABLE leave_action

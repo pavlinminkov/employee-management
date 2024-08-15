@@ -1,4 +1,4 @@
-package com.pavlin.employeemanagement.validator.impl;
+package com.pavlin.employeemanagement.validator.service.impl;
 
 import com.pavlin.employeemanagement.dto.EmployeeInsertRequest;
 import com.pavlin.employeemanagement.dto.EmployeeUpdateRequest;
@@ -8,7 +8,7 @@ import com.pavlin.employeemanagement.model.Employee;
 import com.pavlin.employeemanagement.repository.EmployeeRepository;
 import com.pavlin.employeemanagement.repository.TeamRepository;
 import com.pavlin.employeemanagement.util.MessageUtil;
-import com.pavlin.employeemanagement.validator.EmployeeValidator;
+import com.pavlin.employeemanagement.validator.service.common.EmployeeValidator;
 import java.util.Objects;
 import java.util.UUID;
 import org.springframework.stereotype.Component;
@@ -43,6 +43,17 @@ public class EmployeeValidatorImpl implements EmployeeValidator {
       checkIfDuplicateEmail(request.email());
     }
     checkIfTeamExists(request.teamId());
+  }
+
+  @Override
+  public void validateDeletion(UUID id) {
+    checkIfEmployeeExists(id);
+  }
+
+  private void checkIfEmployeeExists(UUID id) {
+    if (!employeeRepository.existsById(id)) {
+      throw new NotFoundException(messageUtil.getMessage("employee.not_found", id));
+    }
   }
 
   private void checkIfTeamExists(UUID teamId) {

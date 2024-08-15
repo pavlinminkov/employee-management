@@ -3,6 +3,7 @@ package com.pavlin.employeemanagement.model;
 import com.pavlin.employeemanagement.model.common.BaseEntity;
 import com.pavlin.employeemanagement.model.common.LeaveState;
 import com.pavlin.employeemanagement.model.common.LeaveType;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -10,6 +11,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedAttributeNode;
+import jakarta.persistence.NamedEntityGraph;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
@@ -22,6 +25,7 @@ import org.hibernate.annotations.ColumnDefault;
 @Entity
 @Table(name = "`leave`",
     uniqueConstraints = @UniqueConstraint(columnNames = {"employee_id", "start_date", "end_date"}))
+@NamedEntityGraph(name = "Leave.employee", attributeNodes = {@NamedAttributeNode("employee")})
 public class Leave extends BaseEntity {
 
   @NotNull
@@ -48,12 +52,25 @@ public class Leave extends BaseEntity {
   private LeaveType type;
 
   @NotNull
-  @ManyToOne(fetch = FetchType.EAGER, optional = false)
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "employee_id", nullable = false)
   private Employee employee;
 
-  @OneToMany(mappedBy = "leave")
+  @OneToMany(mappedBy = "leave", cascade = CascadeType.REMOVE)
   private List<LeaveAction> leaveActions = new ArrayList<>();
+
+  public Leave() {
+  }
+
+  public Leave(LocalDate requestDate, LocalDate startDate, LocalDate endDate, LeaveState state,
+      LeaveType type, Employee employee) {
+    this.requestDate = requestDate;
+    this.startDate = startDate;
+    this.endDate = endDate;
+    this.state = state;
+    this.type = type;
+    this.employee = employee;
+  }
 
   public LocalDate getRequestDate() {
     return requestDate;

@@ -10,14 +10,13 @@ import com.pavlin.employeemanagement.repository.EmployeeRepository;
 import com.pavlin.employeemanagement.repository.TeamRepository;
 import com.pavlin.employeemanagement.service.EmployeeService;
 import com.pavlin.employeemanagement.util.MessageUtil;
-import com.pavlin.employeemanagement.validator.EmployeeValidator;
+import com.pavlin.employeemanagement.validator.service.common.EmployeeValidator;
 import java.util.List;
 import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -59,7 +58,6 @@ public class EmployeeServiceImpl implements EmployeeService {
   }
 
   @Override
-  @Transactional
   public UUID createEmployee(EmployeeInsertRequest employeeInsertRequest) {
     logger.debug("Creating a new employee");
 
@@ -73,7 +71,6 @@ public class EmployeeServiceImpl implements EmployeeService {
   }
 
   @Override
-  @Transactional
   public void updateEmployee(UUID id, EmployeeUpdateRequest employeeUpdateRequest) {
     logger.debug("Updating employee with id: {}", id);
 
@@ -86,14 +83,14 @@ public class EmployeeServiceImpl implements EmployeeService {
   }
 
   @Override
-  @Transactional(propagation = Propagation.MANDATORY)
+  @Transactional
   public void deleteEmployee(UUID id) {
     logger.debug("Deleting employee with id: {}", id);
 
-    Employee employee = retrieveEmployeeById(id);
+    employeeValidator.validateDeletion(id);
     unsetTeamLeadIfEmployeeIsLead(id);
 
-    employeeRepository.delete(employee);
+    employeeRepository.deleteById(id);
   }
 
   private Employee retrieveEmployeeById(UUID id) {
