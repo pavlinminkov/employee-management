@@ -1,4 +1,4 @@
-package com.pavlin.employeemanagement.validator.impl;
+package com.pavlin.employeemanagement.validator.service.impl;
 
 import com.pavlin.employeemanagement.dto.TeamRequest;
 import com.pavlin.employeemanagement.exception.common.DuplicateEntryException;
@@ -8,7 +8,7 @@ import com.pavlin.employeemanagement.model.Team;
 import com.pavlin.employeemanagement.repository.EmployeeRepository;
 import com.pavlin.employeemanagement.repository.TeamRepository;
 import com.pavlin.employeemanagement.util.MessageUtil;
-import com.pavlin.employeemanagement.validator.TeamValidator;
+import com.pavlin.employeemanagement.validator.service.TeamValidator;
 import java.util.Objects;
 import java.util.UUID;
 import org.springframework.stereotype.Component;

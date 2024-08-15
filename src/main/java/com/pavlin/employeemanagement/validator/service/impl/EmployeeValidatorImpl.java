@@ -1,4 +1,4 @@
-package com.pavlin.employeemanagement.validator.impl;
+package com.pavlin.employeemanagement.validator.service.impl;
 
 import com.pavlin.employeemanagement.dto.EmployeeInsertRequest;
 import com.pavlin.employeemanagement.dto.EmployeeUpdateRequest;
@@ -8,7 +8,7 @@ import com.pavlin.employeemanagement.model.Employee;
 import com.pavlin.employeemanagement.repository.EmployeeRepository;
 import com.pavlin.employeemanagement.repository.TeamRepository;
 import com.pavlin.employeemanagement.util.MessageUtil;
-import com.pavlin.employeemanagement.validator.EmployeeValidator;
+import com.pavlin.employeemanagement.validator.service.common.EmployeeValidator;
 import java.util.Objects;
 import java.util.UUID;
 import org.springframework.stereotype.Component;
