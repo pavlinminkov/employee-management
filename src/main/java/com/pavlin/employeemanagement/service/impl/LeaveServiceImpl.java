@@ -61,8 +61,6 @@ public class LeaveServiceImpl implements LeaveService {
   public Page<LeaveResponse> getAllLeavesByEmployeeId(UUID employeeId, Pageable pageable) {
     logger.debug("Fetching all leaves by employee: {}", employeeId);
 
-    // TODO check if exists?
-
     return leaveRepository.findAllByEmployeeId(employeeId, pageable)
         .map(leaveMapper::toLeaveResponse);
   }
@@ -70,8 +68,6 @@ public class LeaveServiceImpl implements LeaveService {
   @Override
   public Page<LeaveResponse> getAllLeavesByLeadId(UUID leadId, Pageable pageable) {
     logger.debug("Fetching all leaves for lead: {}", leadId);
-
-    // TODO check if exists?
 
     return leaveRepository.findAllByEmployee_Team_Lead_Id(leadId, pageable)
         .map(leaveMapper::toLeaveResponse);

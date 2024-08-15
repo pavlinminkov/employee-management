@@ -2,9 +2,12 @@ package com.pavlin.employeemanagement.exception;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.pavlin.employeemanagement.exception.common.DuplicateEntryException;
+import com.pavlin.employeemanagement.exception.common.InvalidArgumentException;
 import com.pavlin.employeemanagement.exception.common.NotFoundException;
+import com.pavlin.employeemanagement.exception.common.OverlappingLeaveException;
 import com.pavlin.employeemanagement.exception.common.TeamNotEmptyException;
 import com.pavlin.employeemanagement.util.MessageUtil;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
@@ -29,16 +32,27 @@ public class GlobalExceptionHandler {
     this.messageUtil = messageUtil;
   }
 
-  @ExceptionHandler(value = {TeamNotEmptyException.class})
-  public ResponseEntity<Object> handleTeamNotEmptyException(TeamNotEmptyException e) {
+  @ExceptionHandler(value = {
+      TeamNotEmptyException.class,
+      DuplicateEntryException.class,
+      InvalidArgumentException.class
+  })
+  public ResponseEntity<Object> handleConflictExceptions(RuntimeException e) {
     logger.info(e.getMessage(), e);
     return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
   }
 
-  @ExceptionHandler(value = {DuplicateEntryException.class})
-  public ResponseEntity<Object> handleDuplicateEntryException(DuplicateEntryException e) {
+  @ExceptionHandler(value = {OverlappingLeaveException.class})
+  public ResponseEntity<Object> handleOverlappingLeaveException(OverlappingLeaveException e) {
     logger.info(e.getMessage(), e);
-    return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+
+    StringBuilder errorMessage = new StringBuilder(
+        messageUtil.getMessage("exception.leave_overlap"));
+    for (LocalDate[] period : e.getOverlappingPeriods()) {
+      errorMessage.append(String.format("[%s - %s]", period[0], period[1]));
+    }
+
+    return new ResponseEntity<>(errorMessage.toString(), HttpStatus.CONFLICT);
   }
 
   @ExceptionHandler(value = {NotFoundException.class})
