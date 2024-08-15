@@ -10,7 +10,7 @@ import com.pavlin.employeemanagement.model.Leave;
 import com.pavlin.employeemanagement.model.common.LeaveState;
 import com.pavlin.employeemanagement.repository.EmployeeRepository;
 import com.pavlin.employeemanagement.repository.LeaveRepository;
-import com.pavlin.employeemanagement.repository.TeamRepository;
+import com.pavlin.employeemanagement.service.LeaveService;
 import com.pavlin.employeemanagement.util.MessageUtil;
 import com.pavlin.employeemanagement.validator.service.LeaveValidator;
 import java.time.LocalDate;
@@ -23,7 +23,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
-public class LeaveServiceImpl implements com.pavlin.employeemanagement.service.LeaveService {
+public class LeaveServiceImpl implements LeaveService {
 
   private final LeaveRepository leaveRepository;
   private final LeaveMapper leaveMapper;
@@ -34,7 +34,7 @@ public class LeaveServiceImpl implements com.pavlin.employeemanagement.service.L
 
   public LeaveServiceImpl(LeaveRepository leaveRepository, LeaveMapper leaveMapper,
       LeaveValidator leaveValidator,
-      TeamRepository teamRepository, MessageUtil messageUtil,
+      MessageUtil messageUtil,
       EmployeeRepository employeeRepository) {
     this.leaveRepository = leaveRepository;
     this.leaveMapper = leaveMapper;

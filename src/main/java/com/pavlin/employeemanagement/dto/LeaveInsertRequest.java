@@ -13,6 +13,6 @@ import java.util.UUID;
 public record LeaveInsertRequest(@NotNull @Future LocalDate startDate,
                                  @NotNull @Future LocalDate endDate,
                                  @NotNull LeaveType type,
-                                 UUID employeeId) implements Serializable {
+                                 @NotNull UUID employeeId) implements Serializable {
 
 }
