@@ -3,6 +3,7 @@ package com.pavlin.employeemanagement.validator.service.impl;
 import com.pavlin.employeemanagement.dto.TeamRequest;
 import com.pavlin.employeemanagement.exception.common.DuplicateEntryException;
 import com.pavlin.employeemanagement.exception.common.NotFoundException;
+import com.pavlin.employeemanagement.exception.common.RelatedEntityNotFoundException;
 import com.pavlin.employeemanagement.exception.common.TeamNotEmptyException;
 import com.pavlin.employeemanagement.model.Team;
 import com.pavlin.employeemanagement.repository.EmployeeRepository;
@@ -64,7 +65,8 @@ public class TeamValidatorImpl implements TeamValidator {
 
   private void checkIfEmployeeExists(UUID leadId) {
     if (Objects.nonNull(leadId) && !employeeRepository.existsById(leadId)) {
-      throw new NotFoundException(messageUtil.getMessage("employee.not_found", leadId));
+      throw new RelatedEntityNotFoundException(
+          messageUtil.getMessage("employee.not_found", leadId));
     }
   }
 

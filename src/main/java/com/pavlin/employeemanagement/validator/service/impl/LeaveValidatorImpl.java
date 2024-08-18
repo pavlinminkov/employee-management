@@ -5,6 +5,7 @@ import com.pavlin.employeemanagement.dto.LeaveUpdateRequest;
 import com.pavlin.employeemanagement.exception.common.InvalidArgumentException;
 import com.pavlin.employeemanagement.exception.common.NotFoundException;
 import com.pavlin.employeemanagement.exception.common.OverlappingLeaveException;
+import com.pavlin.employeemanagement.exception.common.RelatedEntityNotFoundException;
 import com.pavlin.employeemanagement.model.Leave;
 import com.pavlin.employeemanagement.repository.EmployeeRepository;
 import com.pavlin.employeemanagement.repository.LeaveRepository;
@@ -57,7 +58,7 @@ public class LeaveValidatorImpl implements LeaveValidator {
 
   private void checkIfEmployeeExists(UUID id) {
     if (!employeeRepository.existsById(id)) {
-      throw new NotFoundException(messageUtil.getMessage("employee.not_found", id));
+      throw new RelatedEntityNotFoundException(messageUtil.getMessage("employee.not_found", id));
     }
   }
 
