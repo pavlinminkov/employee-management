@@ -5,6 +5,7 @@ import com.pavlin.employeemanagement.exception.common.DuplicateEntryException;
 import com.pavlin.employeemanagement.exception.common.InvalidArgumentException;
 import com.pavlin.employeemanagement.exception.common.NotFoundException;
 import com.pavlin.employeemanagement.exception.common.OverlappingLeaveException;
+import com.pavlin.employeemanagement.exception.common.RelatedEntityNotFoundException;
 import com.pavlin.employeemanagement.exception.common.TeamNotEmptyException;
 import com.pavlin.employeemanagement.util.MessageUtil;
 import java.time.LocalDate;
@@ -30,6 +31,13 @@ public class GlobalExceptionHandler {
 
   public GlobalExceptionHandler(MessageUtil messageUtil) {
     this.messageUtil = messageUtil;
+  }
+
+  @ExceptionHandler(value = {RelatedEntityNotFoundException.class})
+  public ResponseEntity<Object> handleRelatedEntityNotFoundException(
+      RelatedEntityNotFoundException e) {
+    logger.info(e.getMessage(), e);
+    return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
   }
 
   @ExceptionHandler(value = {
