@@ -11,6 +11,7 @@ import static com.pavlin.employeemanagement.util.EmployeeMocks.EMPLOYEE_1_PASSWO
 import static com.pavlin.employeemanagement.util.EmployeeMocks.EMPLOYEE_1_UNHASHED_PASSWORD;
 import static com.pavlin.employeemanagement.util.EmployeeMocks.EMPLOYEE_1_USERNAME;
 import static com.pavlin.employeemanagement.util.EmployeeMocks.EMPLOYEE_2;
+import static com.pavlin.employeemanagement.util.EmployeeMocks.EMPLOYEE_2_ID;
 import static com.pavlin.employeemanagement.util.EmployeeMocks.EMPLOYEE_3;
 import static com.pavlin.employeemanagement.util.EmployeeMocks.EMPLOYEE_4;
 import static com.pavlin.employeemanagement.util.EmployeeMocks.EMPLOYEE_4_ID;
@@ -30,6 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -96,9 +98,8 @@ class EmployeeServiceImplTest {
     String expectedMessage = messageUtil.getMessage("employee.not_found", invalidEmployeeId);
     when(employeeRepository.findById(invalidEmployeeId)).thenReturn(Optional.empty());
 
-    NotFoundException notFoundException = assertThrows(NotFoundException.class, () -> {
-      employeeService.getEmployeeById(invalidEmployeeId);
-    });
+    NotFoundException notFoundException = assertThrows(NotFoundException.class,
+        () -> employeeService.getEmployeeById(invalidEmployeeId));
 
     assertEquals(expectedMessage, notFoundException.getMessage());
   }
@@ -178,9 +179,8 @@ class EmployeeServiceImplTest {
     String expectedMessage = messageUtil.getMessage("employee.not_found", invalidEmployeeId);
     when(employeeRepository.findById(invalidEmployeeId)).thenReturn(Optional.empty());
 
-    NotFoundException notFoundException = assertThrows(NotFoundException.class, () -> {
-      employeeService.updateEmployee(invalidEmployeeId, EMPLOYEE_UPDATE_REQUEST);
-    });
+    NotFoundException notFoundException = assertThrows(NotFoundException.class, () ->
+        employeeService.updateEmployee(invalidEmployeeId, EMPLOYEE_UPDATE_REQUEST));
 
     assertEquals(expectedMessage, notFoundException.getMessage());
   }
@@ -211,6 +211,17 @@ class EmployeeServiceImplTest {
     employeeService.deleteEmployee(EMPLOYEE_1_ID);
 
     verify(employeeValidator, times(1)).validateDeletion(EMPLOYEE_1_ID);
+  }
+
+  @Test
+  void givenValidEmployeeId_whenDeleteEmployee_thenDeleteEmployee() {
+    when(teamRepository.findByLead_Id(EMPLOYEE_2_ID)).thenReturn(Optional.empty());
+
+    employeeService.deleteEmployee(EMPLOYEE_2_ID);
+
+    verify(teamRepository, times(1)).findByLead_Id(EMPLOYEE_2_ID);
+    verify(teamRepository, times(0)).save(any());
+    verify(employeeRepository, times(1)).deleteById(EMPLOYEE_2_ID);
   }
 
   @Test
