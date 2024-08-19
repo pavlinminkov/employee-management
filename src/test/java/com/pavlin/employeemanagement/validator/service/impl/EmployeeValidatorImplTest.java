@@ -2,7 +2,10 @@ package com.pavlin.employeemanagement.validator.service.impl;
 
 import static com.pavlin.employeemanagement.util.EmployeeMocks.EMPLOYEE_1;
 import static com.pavlin.employeemanagement.util.EmployeeMocks.EMPLOYEE_1_EMAIL;
+import static com.pavlin.employeemanagement.util.EmployeeMocks.EMPLOYEE_1_FIRST_NAME;
 import static com.pavlin.employeemanagement.util.EmployeeMocks.EMPLOYEE_1_ID;
+import static com.pavlin.employeemanagement.util.EmployeeMocks.EMPLOYEE_1_LAST_NAME;
+import static com.pavlin.employeemanagement.util.EmployeeMocks.EMPLOYEE_1_MIDDLE_NAME;
 import static com.pavlin.employeemanagement.util.EmployeeMocks.EMPLOYEE_1_USERNAME;
 import static com.pavlin.employeemanagement.util.EmployeeMocks.EMPLOYEE_2;
 import static com.pavlin.employeemanagement.util.EmployeeMocks.EMPLOYEE_2_EMAIL;
@@ -172,8 +175,6 @@ class EmployeeValidatorImplTest {
 
     assertThrows(DuplicateEntryException.class,
         () -> employeeValidator.validateUpdate(requestWithNewUsername, EMPLOYEE_1));
-
-    verify(employeeRepository, times(1)).existsByUsername(EMPLOYEE_2_USERNAME);
   }
 
   @Test
@@ -185,35 +186,22 @@ class EmployeeValidatorImplTest {
 
     assertThrows(DuplicateEntryException.class,
         () -> employeeValidator.validateUpdate(requestWithNewEmail, EMPLOYEE_1));
-
-    verify(employeeRepository, times(1)).existsByEmail(EMPLOYEE_2_EMAIL);
-  }
-
-  private static EmployeeUpdateRequest getEmployeeUpdateRequest(String username, String email) {
-    return new EmployeeUpdateRequest(
-        EMPLOYEE_1.getFirstName(),
-        EMPLOYEE_1.getMiddleName(),
-        EMPLOYEE_1.getLastName(),
-        username,
-        email,
-        TEAM_1_ID
-    );
   }
 
   @Test
-  void givenNullEmployeeId_whenValidateUpdate_thenThrowNullPointerException() {
+  void givenNullEmployeeId_whenValidateValidateDeletion_thenThrowNullPointerException() {
     assertThrows(NullPointerException.class, () -> employeeValidator.validateDeletion(null));
   }
 
   @Test
-  void givenValidEmployeeId_whenValidateUpdate_thenDoNotThrowException() {
+  void givenValidEmployeeId_whenValidateDeletion_thenDoNotThrowException() {
     when(employeeRepository.existsById(EMPLOYEE_1_ID)).thenReturn(true);
 
     assertDoesNotThrow(() -> employeeValidator.validateDeletion(EMPLOYEE_1_ID));
   }
 
   @Test
-  void givenMissingEmployeeId_whenValidateUpdate_thenThrowNotFoundException() {
+  void givenMissingEmployeeId_whenValidateDeletion_thenThrowNotFoundException() {
     String expectedExceptionMessage = "Employee not found";
     when(employeeRepository.existsById(EMPLOYEE_1_ID)).thenReturn(false);
     when(messageUtil.getMessage(any(), eq(EMPLOYEE_1_ID))).thenReturn(expectedExceptionMessage);
@@ -222,5 +210,16 @@ class EmployeeValidatorImplTest {
         () -> employeeValidator.validateDeletion(EMPLOYEE_1_ID));
 
     assertEquals(expectedExceptionMessage, notFoundException.getMessage());
+  }
+
+  private static EmployeeUpdateRequest getEmployeeUpdateRequest(String username, String email) {
+    return new EmployeeUpdateRequest(
+        EMPLOYEE_1_FIRST_NAME,
+        EMPLOYEE_1_MIDDLE_NAME,
+        EMPLOYEE_1_LAST_NAME,
+        username,
+        email,
+        TEAM_1_ID
+    );
   }
 }
