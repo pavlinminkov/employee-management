@@ -5,6 +5,7 @@ import com.pavlin.employeemanagement.dto.EmployeeResponse;
 import com.pavlin.employeemanagement.dto.EmployeeUpdateRequest;
 import com.pavlin.employeemanagement.model.Employee;
 import com.pavlin.employeemanagement.model.Team;
+import java.util.Objects;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,6 +18,8 @@ public class EmployeeMapper {
   }
 
   public EmployeeResponse toEmployeeResponse(Employee employee) {
+    Objects.requireNonNull(employee);
+
     return new EmployeeResponse(
         employee.getId(),
         employee.getFirstName(),
@@ -28,6 +31,8 @@ public class EmployeeMapper {
   }
 
   public Employee toEmployee(EmployeeInsertRequest employeeInsertRequest) {
+    Objects.requireNonNull(employeeInsertRequest);
+
     Team team = new Team();
     team.setId(employeeInsertRequest.teamId());
 
@@ -43,6 +48,9 @@ public class EmployeeMapper {
   }
 
   public Employee toEmployee(EmployeeUpdateRequest employeeUpdateRequest, Employee employee) {
+    Objects.requireNonNull(employeeUpdateRequest);
+    Objects.requireNonNull(employee);
+
     Team team = new Team();
     team.setId(employeeUpdateRequest.teamId());
 

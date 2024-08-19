@@ -31,6 +31,7 @@ public class TeamValidatorImpl implements TeamValidator {
 
   @Override
   public void validateCreation(TeamRequest request) {
+    Objects.requireNonNull(request);
     checkIfDuplicateTeamName(request);
     if (Objects.nonNull(request.leadId())) {
       checkIfDuplicateLead(request);
@@ -40,6 +41,8 @@ public class TeamValidatorImpl implements TeamValidator {
 
   @Override
   public void validateUpdate(TeamRequest request, Team entity) {
+    Objects.requireNonNull(request);
+    Objects.requireNonNull(entity);
     if (!Objects.equals(entity.getName(), request.name())) {
       checkIfDuplicateTeamName(request);
     }
@@ -53,6 +56,7 @@ public class TeamValidatorImpl implements TeamValidator {
 
   @Override
   public void validateDeletion(UUID id) {
+    Objects.requireNonNull(id);
     checkIfTeamExists(id);
     checkIfTeamIsEmpty(id);
   }

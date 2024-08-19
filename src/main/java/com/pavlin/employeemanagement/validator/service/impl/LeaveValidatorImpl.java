@@ -13,6 +13,7 @@ import com.pavlin.employeemanagement.util.MessageUtil;
 import com.pavlin.employeemanagement.validator.service.LeaveValidator;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import org.springframework.stereotype.Component;
 
@@ -32,6 +33,7 @@ public class LeaveValidatorImpl implements LeaveValidator {
 
   @Override
   public void validateCreation(LeaveInsertRequest request) {
+    Objects.requireNonNull(request);
     checkIfStartDateBeforeEndDate(request.startDate(), request.endDate());
     checkIfEmployeeExists(request.employeeId());
     checkIfDatesOverlap(request.startDate(), request.endDate(), request.employeeId());
@@ -39,6 +41,8 @@ public class LeaveValidatorImpl implements LeaveValidator {
 
   @Override
   public void validateUpdate(LeaveUpdateRequest request, Leave entity) {
+    Objects.requireNonNull(request);
+    Objects.requireNonNull(entity);
     checkIfStartDateBeforeEndDate(request.startDate(), request.endDate());
     checkIfLeaveIsInThePast(entity.getStartDate());
     checkIfDatesOverlap(request.startDate(), request.endDate(), entity.getEmployee().getId(),
@@ -47,6 +51,7 @@ public class LeaveValidatorImpl implements LeaveValidator {
 
   @Override
   public void validateDeletion(UUID id) {
+    Objects.requireNonNull(id);
     checkIfLeaveExists(id);
   }
 

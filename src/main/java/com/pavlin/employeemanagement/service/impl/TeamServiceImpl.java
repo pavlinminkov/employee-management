@@ -10,6 +10,7 @@ import com.pavlin.employeemanagement.service.TeamService;
 import com.pavlin.employeemanagement.util.MessageUtil;
 import com.pavlin.employeemanagement.validator.service.TeamValidator;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +35,7 @@ public class TeamServiceImpl implements TeamService {
 
   @Override
   public TeamResponse getTeamById(UUID id) {
+    Objects.requireNonNull(id);
     logger.debug("Fetching team with id: {}", id);
 
     Team team = retrieveTeamById(id);
@@ -50,6 +52,7 @@ public class TeamServiceImpl implements TeamService {
 
   @Override
   public UUID createTeam(TeamRequest teamRequest) {
+    Objects.requireNonNull(teamRequest);
     logger.debug("Creating a new team");
 
     teamValidator.validateCreation(teamRequest);
@@ -60,6 +63,8 @@ public class TeamServiceImpl implements TeamService {
 
   @Override
   public void updateTeam(UUID id, TeamRequest teamRequest) {
+    Objects.requireNonNull(id);
+    Objects.requireNonNull(teamRequest);
     logger.debug("Updating team with id: {}", id);
 
     Team team = retrieveTeamById(id);
@@ -70,6 +75,7 @@ public class TeamServiceImpl implements TeamService {
 
   @Override
   public void deleteTeam(UUID id) {
+    Objects.requireNonNull(id);
     logger.debug("Deleting team with id: {}", id);
 
     teamValidator.validateDeletion(id);
