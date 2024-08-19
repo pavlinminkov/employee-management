@@ -12,6 +12,7 @@ import com.pavlin.employeemanagement.service.EmployeeService;
 import com.pavlin.employeemanagement.util.MessageUtil;
 import com.pavlin.employeemanagement.validator.service.common.EmployeeValidator;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,6 +44,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
   @Override
   public EmployeeResponse getEmployeeById(UUID id) {
+    Objects.requireNonNull(id);
     logger.debug("Fetching employee with id: {}", id);
 
     Employee employee = retrieveEmployeeById(id);
@@ -59,6 +61,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
   @Override
   public UUID createEmployee(EmployeeInsertRequest employeeInsertRequest) {
+    Objects.requireNonNull(employeeInsertRequest);
     logger.debug("Creating a new employee");
 
     employeeValidator.validateCreation(employeeInsertRequest);
@@ -72,6 +75,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
   @Override
   public void updateEmployee(UUID id, EmployeeUpdateRequest employeeUpdateRequest) {
+    Objects.requireNonNull(id);
+    Objects.requireNonNull(employeeUpdateRequest);
     logger.debug("Updating employee with id: {}", id);
 
     Employee employee = retrieveEmployeeById(id);
@@ -85,6 +90,7 @@ public class EmployeeServiceImpl implements EmployeeService {
   @Override
   @Transactional
   public void deleteEmployee(UUID id) {
+    Objects.requireNonNull(id);
     logger.debug("Deleting employee with id: {}", id);
 
     employeeValidator.validateDeletion(id);

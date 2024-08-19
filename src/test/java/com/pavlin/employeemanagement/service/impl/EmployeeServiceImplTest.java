@@ -105,6 +105,11 @@ class EmployeeServiceImplTest {
   }
 
   @Test
+  void givenNullId_whenGetEmployeeById_thenThrowNullPointerException() {
+    assertThrows(NullPointerException.class, () -> employeeService.getEmployeeById(null));
+  }
+
+  @Test
   void givenEmployees_whenGetAllEmployees_thenReturnEmployeeResponseList() {
     when(employeeRepository.findAll()).thenReturn(EMPLOYEES);
     when(employeeMapper.toEmployeeResponse(EMPLOYEE_1)).thenReturn(EMPLOYEE_RESPONSE_1);
@@ -162,6 +167,11 @@ class EmployeeServiceImplTest {
   }
 
   @Test
+  void givenNullEmployeeInsertRequest_whenCreateEmployee_thenThrowNullPointerException() {
+    assertThrows(NullPointerException.class, () -> employeeService.createEmployee(null));
+  }
+
+  @Test
   void givenAnyEmployeeUpdateRequestAndId_whenUpdateEmployee_thenValidateEmployeeUpdateRequest() {
     when(employeeRepository.findById(EMPLOYEE_1_ID)).thenReturn(Optional.of(EMPLOYEE_1));
     when(employeeMapper.toEmployee(EMPLOYEE_UPDATE_REQUEST, EMPLOYEE_1)).thenReturn(EMPLOYEE_1);
@@ -207,6 +217,18 @@ class EmployeeServiceImplTest {
   }
 
   @Test
+  void givenNullEmployeeUpdateRequest_whenUpdateEmployee_thenThrowNullPointerException() {
+    assertThrows(NullPointerException.class,
+        () -> employeeService.updateEmployee(EMPLOYEE_1_ID, null));
+  }
+
+  @Test
+  void givenNullId_whenUpdateEmployee_thenThrowNullPointerException() {
+    assertThrows(NullPointerException.class,
+        () -> employeeService.updateEmployee(null, EMPLOYEE_UPDATE_REQUEST));
+  }
+
+  @Test
   void givenAnyEmployeeId_whenDeleteEmployee_thenValidateEmployeeDeletion() {
     employeeService.deleteEmployee(EMPLOYEE_1_ID);
 
@@ -237,4 +259,8 @@ class EmployeeServiceImplTest {
     assertNull(team.getLead());
   }
 
+  @Test
+  void givenNullId_whenDeleteEmployee_thenThrowNullPointerException() {
+    assertThrows(NullPointerException.class, () -> employeeService.deleteEmployee(null));
+  }
 }

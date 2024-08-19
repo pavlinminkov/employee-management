@@ -36,7 +36,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(value = {RelatedEntityNotFoundException.class})
   public ResponseEntity<Object> handleRelatedEntityNotFoundException(
       RelatedEntityNotFoundException e) {
-    logger.info(e.getMessage(), e);
+    logger.warn(e.getMessage(), e);
     return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
   }
 
