@@ -32,11 +32,11 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.pavlin.employeemanagement.config.MessageSourceConfig;
 import com.pavlin.employeemanagement.dto.EmployeeResponse;
 import com.pavlin.employeemanagement.exception.common.NotFoundException;
 import com.pavlin.employeemanagement.mapper.EmployeeMapper;
@@ -54,7 +54,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -76,8 +75,8 @@ class EmployeeServiceImplTest {
   @Mock
   PasswordEncoder passwordEncoder;
 
-  @Spy
-  MessageUtil messageUtil = new MessageUtil(new MessageSourceConfig().messageSource());
+  @Mock
+  MessageUtil messageUtil;
 
   @InjectMocks
   EmployeeServiceImpl employeeService;
@@ -95,13 +94,15 @@ class EmployeeServiceImplTest {
   @Test
   void givenInvalidEmployeeId_whenGetEmployeeById_thenThrowNotFoundException() {
     UUID invalidEmployeeId = UUID.fromString("3b9e314c-3f8e-41ab-84c2-6d327a81aa84");
-    String expectedMessage = messageUtil.getMessage("employee.not_found", invalidEmployeeId);
+    String expectedExceptionMessage = "Employee not found";
+
     when(employeeRepository.findById(invalidEmployeeId)).thenReturn(Optional.empty());
+    when(messageUtil.getMessage(any(), eq(invalidEmployeeId))).thenReturn(expectedExceptionMessage);
 
     NotFoundException notFoundException = assertThrows(NotFoundException.class,
         () -> employeeService.getEmployeeById(invalidEmployeeId));
 
-    assertEquals(expectedMessage, notFoundException.getMessage());
+    assertEquals(expectedExceptionMessage, notFoundException.getMessage());
   }
 
   @Test
@@ -186,13 +187,15 @@ class EmployeeServiceImplTest {
   @Test
   void givenInvalidEmployeeId_whenUpdateEmployee_thenThrowNotFoundException() {
     UUID invalidEmployeeId = UUID.fromString("3b9e314c-3f8e-41ab-84c2-6d327a81aa84");
-    String expectedMessage = messageUtil.getMessage("employee.not_found", invalidEmployeeId);
+    String expectedExceptionMessage = "Employee not found";
+
     when(employeeRepository.findById(invalidEmployeeId)).thenReturn(Optional.empty());
+    when(messageUtil.getMessage(any(), eq(invalidEmployeeId))).thenReturn(expectedExceptionMessage);
 
     NotFoundException notFoundException = assertThrows(NotFoundException.class, () ->
         employeeService.updateEmployee(invalidEmployeeId, EMPLOYEE_UPDATE_REQUEST));
 
-    assertEquals(expectedMessage, notFoundException.getMessage());
+    assertEquals(expectedExceptionMessage, notFoundException.getMessage());
   }
 
   @Test
