@@ -139,7 +139,7 @@ class EmployeeValidatorImplTest {
   }
 
   @Test
-  void givenValidChangedUsernameAndUnchangedEmail_whenValidateUpdate_thenCheckIfDuplicateUsername() {
+  void givenValidChangedUsername_whenValidateUpdate_thenCheckIfDuplicateUsername() {
     when(employeeRepository.existsByUsername(EMPLOYEE_2_USERNAME)).thenReturn(false);
     when(teamRepository.existsById(TEAM_1_ID)).thenReturn(true);
 
@@ -149,7 +149,6 @@ class EmployeeValidatorImplTest {
     assertDoesNotThrow(() -> employeeValidator.validateUpdate(requestWithNewUsername, EMPLOYEE_1));
 
     verify(employeeRepository, times(1)).existsByUsername(EMPLOYEE_2_USERNAME);
-    verify(employeeRepository, times(0)).existsByEmail(EMPLOYEE_1_EMAIL);
   }
 
   @Test
@@ -163,6 +162,34 @@ class EmployeeValidatorImplTest {
     assertDoesNotThrow(() -> employeeValidator.validateUpdate(requestWithNewEmail, EMPLOYEE_1));
 
     verify(employeeRepository, times(1)).existsByEmail(EMPLOYEE_2_EMAIL);
+  }
+
+  @Test
+  void givenUnchangedEmail_whenValidateUpdate_thenEmailNotChecked() {
+    when(employeeRepository.existsByUsername(EMPLOYEE_2_USERNAME)).thenReturn(false);
+    when(teamRepository.existsById(TEAM_1_ID)).thenReturn(true);
+
+    EmployeeUpdateRequest requestWithUnchangedEmail = getEmployeeUpdateRequest(EMPLOYEE_2_USERNAME,
+        EMPLOYEE_1_EMAIL);
+
+    assertDoesNotThrow(
+        () -> employeeValidator.validateUpdate(requestWithUnchangedEmail, EMPLOYEE_1));
+
+    verify(employeeRepository, times(0)).existsByEmail(EMPLOYEE_1_EMAIL);
+  }
+
+  @Test
+  void givenUnchangedUsername_whenValidateUpdate_thenUsernameNotChecked() {
+    when(employeeRepository.existsByEmail(EMPLOYEE_2_EMAIL)).thenReturn(false);
+    when(teamRepository.existsById(TEAM_1_ID)).thenReturn(true);
+
+    EmployeeUpdateRequest requestWithUnchangedUsername = getEmployeeUpdateRequest(
+        EMPLOYEE_1_USERNAME,
+        EMPLOYEE_2_EMAIL);
+
+    assertDoesNotThrow(
+        () -> employeeValidator.validateUpdate(requestWithUnchangedUsername, EMPLOYEE_1));
+
     verify(employeeRepository, times(0)).existsByUsername(EMPLOYEE_1_USERNAME);
   }
 
