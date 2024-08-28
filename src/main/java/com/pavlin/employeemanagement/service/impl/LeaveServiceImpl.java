@@ -14,6 +14,7 @@ import com.pavlin.employeemanagement.service.LeaveService;
 import com.pavlin.employeemanagement.util.MessageUtil;
 import com.pavlin.employeemanagement.validator.service.LeaveValidator;
 import java.time.LocalDate;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import org.slf4j.Logger;
@@ -45,6 +46,7 @@ public class LeaveServiceImpl implements LeaveService {
 
   @Override
   public LeaveResponse getLeaveById(UUID id) {
+    Objects.requireNonNull(id);
     logger.debug("Fetching leave with id: {}", id);
 
     return leaveMapper.toLeaveResponse(retrieveLeaveById(id, true));
@@ -52,6 +54,7 @@ public class LeaveServiceImpl implements LeaveService {
 
   @Override
   public Page<LeaveResponse> getAllLeaves(Pageable pageable) {
+    Objects.requireNonNull(pageable);
     logger.debug("Fetching all leaves");
 
     return leaveRepository.findAllWithEmployee(pageable).map(leaveMapper::toLeaveResponse);
@@ -59,6 +62,8 @@ public class LeaveServiceImpl implements LeaveService {
 
   @Override
   public Page<LeaveResponse> getAllLeavesByEmployeeId(UUID employeeId, Pageable pageable) {
+    Objects.requireNonNull(employeeId);
+    Objects.requireNonNull(pageable);
     logger.debug("Fetching all leaves by employee: {}", employeeId);
 
     return leaveRepository.findAllByEmployeeId(employeeId, pageable)
@@ -67,6 +72,8 @@ public class LeaveServiceImpl implements LeaveService {
 
   @Override
   public Page<LeaveResponse> getAllLeavesByLeadId(UUID leadId, Pageable pageable) {
+    Objects.requireNonNull(leadId);
+    Objects.requireNonNull(pageable);
     logger.debug("Fetching all leaves for lead: {}", leadId);
 
     return leaveRepository.findAllByEmployee_Team_Lead_Id(leadId, pageable)
@@ -75,6 +82,7 @@ public class LeaveServiceImpl implements LeaveService {
 
   @Override
   public UUID createLeave(LeaveInsertRequest leaveInsertRequest) {
+    Objects.requireNonNull(leaveInsertRequest);
     logger.debug("Creating a new leave");
 
     leaveValidator.validateCreation(leaveInsertRequest);
@@ -88,6 +96,8 @@ public class LeaveServiceImpl implements LeaveService {
 
   @Override
   public void updateLeave(UUID id, LeaveUpdateRequest leaveUpdateRequest) {
+    Objects.requireNonNull(id);
+    Objects.requireNonNull(leaveUpdateRequest);
     logger.debug("Updating leave with id: {}", id);
 
     Leave leave = retrieveLeaveById(id, false);
@@ -98,6 +108,7 @@ public class LeaveServiceImpl implements LeaveService {
 
   @Override
   public void deleteLeave(UUID id) {
+    Objects.requireNonNull(id);
     logger.debug("Deleting leave with id: {}", id);
 
     leaveValidator.validateDeletion(id);

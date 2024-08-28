@@ -12,12 +12,16 @@ import org.springframework.stereotype.Component;
 public class TeamMapper {
 
   public TeamResponse toTeamResponse(Team team) {
+    Objects.requireNonNull(team);
+
     UUID leadId = Objects.nonNull(team.getLead()) ? team.getLead().getId() : null;
 
     return new TeamResponse(team.getId(), team.getName(), leadId);
   }
 
   public Team toTeam(TeamRequest teamRequest) {
+    Objects.requireNonNull(teamRequest);
+
     Team team = new Team();
     team.setName(teamRequest.name());
 
@@ -27,6 +31,9 @@ public class TeamMapper {
   }
 
   public Team toTeam(TeamRequest teamRequest, Team team) {
+    Objects.requireNonNull(teamRequest);
+    Objects.requireNonNull(team);
+
     team.setName(teamRequest.name());
 
     setEmployee(teamRequest, team);

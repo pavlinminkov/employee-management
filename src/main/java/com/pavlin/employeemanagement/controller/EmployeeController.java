@@ -40,7 +40,7 @@ public class EmployeeController {
   }
 
   @PostMapping
-  public ResponseEntity<EmployeeResponse> createEmployee(
+  public ResponseEntity<Void> createEmployee(
       @Valid @RequestBody EmployeeInsertRequest employeeInsertRequest) {
     UUID employeeId = employeeService.createEmployee(employeeInsertRequest);
     URI location = ServletUriComponentsBuilder

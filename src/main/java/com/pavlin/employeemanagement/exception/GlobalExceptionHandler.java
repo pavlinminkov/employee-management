@@ -36,7 +36,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(value = {RelatedEntityNotFoundException.class})
   public ResponseEntity<Object> handleRelatedEntityNotFoundException(
       RelatedEntityNotFoundException e) {
-    logger.info(e.getMessage(), e);
+    logger.warn(e.getMessage(), e);
     return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
   }
 
@@ -95,7 +95,9 @@ public class GlobalExceptionHandler {
   }
 
   @ExceptionHandler(value = {HttpMessageNotReadableException.class})
-  public ResponseEntity<Object> handleTeamNotEmptyException(HttpMessageNotReadableException e) {
+  public ResponseEntity<Object> handleHttpMessageNotReadableException(
+      HttpMessageNotReadableException e) {
+    logger.info(e.getMessage(), e);
     if (e.getCause() instanceof InvalidFormatException invalidFormatException) {
       String errorMessage = messageUtil.getMessage(
           "exception.invalid_format",

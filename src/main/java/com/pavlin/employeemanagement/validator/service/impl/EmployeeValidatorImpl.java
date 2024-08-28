@@ -30,6 +30,7 @@ public class EmployeeValidatorImpl implements EmployeeValidator {
 
   @Override
   public void validateCreation(EmployeeInsertRequest request) {
+    Objects.requireNonNull(request);
     checkIfTeamExists(request.teamId());
     checkIfDuplicateUsername(request.username());
     checkIfDuplicateEmail(request.email());
@@ -37,6 +38,8 @@ public class EmployeeValidatorImpl implements EmployeeValidator {
 
   @Override
   public void validateUpdate(EmployeeUpdateRequest request, Employee entity) {
+    Objects.requireNonNull(request);
+    Objects.requireNonNull(entity);
     if (!Objects.equals(request.username(), entity.getUsername())) {
       checkIfDuplicateUsername(request.username());
     }
@@ -48,6 +51,7 @@ public class EmployeeValidatorImpl implements EmployeeValidator {
 
   @Override
   public void validateDeletion(UUID id) {
+    Objects.requireNonNull(id);
     checkIfEmployeeExists(id);
   }
 

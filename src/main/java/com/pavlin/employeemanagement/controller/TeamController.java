@@ -39,7 +39,7 @@ public class TeamController {
   }
 
   @PostMapping
-  public ResponseEntity<TeamResponse> createTeam(@Valid @RequestBody TeamRequest teamRequest) {
+  public ResponseEntity<Void> createTeam(@Valid @RequestBody TeamRequest teamRequest) {
     UUID teamId = teamService.createTeam(teamRequest);
     URI location = ServletUriComponentsBuilder
         .fromCurrentContextPath()

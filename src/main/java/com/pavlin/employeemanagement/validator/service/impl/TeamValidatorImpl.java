@@ -31,28 +31,31 @@ public class TeamValidatorImpl implements TeamValidator {
 
   @Override
   public void validateCreation(TeamRequest request) {
+    Objects.requireNonNull(request);
     checkIfDuplicateTeamName(request);
     if (Objects.nonNull(request.leadId())) {
+      checkIfEmployeeExists(request.leadId());
       checkIfDuplicateLead(request);
     }
-    checkIfEmployeeExists(request.leadId());
   }
 
   @Override
   public void validateUpdate(TeamRequest request, Team entity) {
+    Objects.requireNonNull(request);
+    Objects.requireNonNull(entity);
     if (!Objects.equals(entity.getName(), request.name())) {
       checkIfDuplicateTeamName(request);
     }
 
     if (Objects.nonNull(request.leadId()) && isEntityLeadDifferent(request, entity)) {
+      checkIfEmployeeExists(request.leadId());
       checkIfDuplicateLead(request);
     }
-
-    checkIfEmployeeExists(request.leadId());
   }
 
   @Override
   public void validateDeletion(UUID id) {
+    Objects.requireNonNull(id);
     checkIfTeamExists(id);
     checkIfTeamIsEmpty(id);
   }
@@ -64,7 +67,7 @@ public class TeamValidatorImpl implements TeamValidator {
   }
 
   private void checkIfEmployeeExists(UUID leadId) {
-    if (Objects.nonNull(leadId) && !employeeRepository.existsById(leadId)) {
+    if (!employeeRepository.existsById(leadId)) {
       throw new RelatedEntityNotFoundException(
           messageUtil.getMessage("employee.not_found", leadId));
     }

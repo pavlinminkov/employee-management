@@ -7,12 +7,15 @@ import com.pavlin.employeemanagement.model.Employee;
 import com.pavlin.employeemanagement.model.Leave;
 import com.pavlin.employeemanagement.model.common.LeaveState;
 import java.time.LocalDate;
+import java.util.Objects;
 import org.springframework.stereotype.Component;
 
 @Component
 public class LeaveMapper {
 
   public LeaveResponse toLeaveResponse(Leave leave) {
+    Objects.requireNonNull(leave);
+
     return new LeaveResponse(
         leave.getId(),
         leave.getRequestDate(),
@@ -34,6 +37,11 @@ public class LeaveMapper {
       LocalDate requestDate,
       LeaveState leaveState,
       Employee employee) {
+    Objects.requireNonNull(leaveInsertRequest);
+    Objects.requireNonNull(requestDate);
+    Objects.requireNonNull(leaveState);
+    Objects.requireNonNull(employee);
+
     return new Leave(
         requestDate,
         leaveInsertRequest.startDate(),
@@ -45,6 +53,9 @@ public class LeaveMapper {
   }
 
   public Leave toLeave(LeaveUpdateRequest leaveUpdateRequest, Leave leave) {
+    Objects.requireNonNull(leaveUpdateRequest);
+    Objects.requireNonNull(leave);
+
     leave.setStartDate(leaveUpdateRequest.startDate());
     leave.setEndDate(leaveUpdateRequest.endDate());
     leave.setType(leaveUpdateRequest.type());
