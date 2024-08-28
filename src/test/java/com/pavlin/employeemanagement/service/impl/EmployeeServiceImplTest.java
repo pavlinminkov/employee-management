@@ -33,6 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -50,36 +51,44 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@ExtendWith(MockitoExtension.class)
 class EmployeeServiceImplTest {
 
-  @Mock
   EmployeeRepository employeeRepository;
 
-  @Mock
   EmployeeMapper employeeMapper;
 
-  @Mock
   EmployeeValidator employeeValidator;
 
-  @Mock
   TeamRepository teamRepository;
 
-  @Mock
   PasswordEncoder passwordEncoder;
 
-  @Mock
   MessageUtil messageUtil;
 
-  @InjectMocks
   EmployeeServiceImpl employeeService;
+
+  @BeforeEach
+  void setUp() {
+    employeeRepository = mock(EmployeeRepository.class);
+    employeeMapper = mock(EmployeeMapper.class);
+    employeeValidator = mock(EmployeeValidator.class);
+    teamRepository = mock(TeamRepository.class);
+    passwordEncoder = mock(PasswordEncoder.class);
+    messageUtil = mock(MessageUtil.class);
+
+    employeeService = new EmployeeServiceImpl(
+        employeeRepository,
+        employeeMapper,
+        employeeValidator,
+        messageUtil,
+        passwordEncoder,
+        teamRepository
+    );
+  }
 
   @Test
   void givenValidEmployeeId_whenGetEmployeeById_thenReturnEmployeeResponse() {
