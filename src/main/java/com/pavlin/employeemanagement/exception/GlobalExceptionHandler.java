@@ -95,7 +95,9 @@ public class GlobalExceptionHandler {
   }
 
   @ExceptionHandler(value = {HttpMessageNotReadableException.class})
-  public ResponseEntity<Object> handleTeamNotEmptyException(HttpMessageNotReadableException e) {
+  public ResponseEntity<Object> handleHttpMessageNotReadableException(
+      HttpMessageNotReadableException e) {
+    logger.info(e.getMessage(), e);
     if (e.getCause() instanceof InvalidFormatException invalidFormatException) {
       String errorMessage = messageUtil.getMessage(
           "exception.invalid_format",
