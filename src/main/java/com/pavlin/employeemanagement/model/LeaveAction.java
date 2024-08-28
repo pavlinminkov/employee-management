@@ -9,6 +9,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedAttributeNode;
+import jakarta.persistence.NamedEntityGraph;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotNull;
@@ -17,6 +19,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "leave_action",
     uniqueConstraints = @UniqueConstraint(columnNames = {"leave_id", "employee_id"}))
+@NamedEntityGraph(name = "LeaveAction.employee", attributeNodes = {@NamedAttributeNode("employee")})
 public class LeaveAction extends BaseEntity {
 
   @NotNull
@@ -37,6 +40,17 @@ public class LeaveAction extends BaseEntity {
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "employee_id", nullable = false)
   private Employee employee;
+
+  public LeaveAction() {
+
+  }
+
+  public LeaveAction(LeaveActionType type, LocalDate date, Leave leave, Employee employee) {
+    this.type = type;
+    this.date = date;
+    this.leave = leave;
+    this.employee = employee;
+  }
 
   public LeaveActionType getType() {
     return type;
