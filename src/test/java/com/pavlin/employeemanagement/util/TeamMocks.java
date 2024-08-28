@@ -62,6 +62,13 @@ public class TeamMocks {
   public static final String TEAM_4_NAME = "Sales";
   public static final Team TEAM_4 = new Team(TEAM_4_NAME);
 
+  public static final List<Team> TEAMS = Arrays.asList(
+      TEAM_1,
+      TEAM_2,
+      TEAM_3,
+      TEAM_4
+  );
+
   // Team Responses
   public static final TeamResponse TEAM_RESPONSE_1 = new TeamResponse(
       TEAM_1_ID,
