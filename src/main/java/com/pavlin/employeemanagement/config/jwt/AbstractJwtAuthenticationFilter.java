@@ -39,9 +39,7 @@ public abstract class AbstractJwtAuthenticationFilter extends OncePerRequestFilt
     String jwt = authHeader.substring(7);
     String username = jwtService.extractUsername(jwt);
 
-    if (username == null
-        || jwtService.isTokenExpired(jwt)
-        || SecurityContextHolder.getContext().getAuthentication() != null) {
+    if (username == null || SecurityContextHolder.getContext().getAuthentication() != null) {
       return;
     }
 

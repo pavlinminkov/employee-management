@@ -4,7 +4,6 @@ import com.pavlin.employeemanagement.service.JwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.JwtParser;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -62,17 +61,6 @@ public class JwtServiceImpl implements JwtService {
 
     String username = extractUsername(token);
     return username.equals(userDetails.getUsername());
-  }
-
-  @Override
-  public boolean isTokenExpired(String token) {
-    Objects.requireNonNull(token);
-
-    return extractExpiration(token).before(new Date());
-  }
-
-  private Date extractExpiration(String token) {
-    return extractClaim(token, Claims::getExpiration);
   }
 
   private Claims extractClaimsFromToken(String token) {
