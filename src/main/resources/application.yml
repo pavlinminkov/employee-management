@@ -25,3 +25,7 @@ logging:
 server:
   servlet:
     context-path: /api/v1
+jwt:
+  private: ${JWT_PRIVATE_KEY}
+  public: ${JWT_PUBLIC_KEY}
+  expiration: 86400000 # Milliseconds (24 Hours)

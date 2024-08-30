@@ -11,6 +11,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedAttributeNode;
 import jakarta.persistence.NamedEntityGraph;
+import jakarta.persistence.NamedSubgraph;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
@@ -23,6 +24,14 @@ import java.util.Set;
 @Entity
 @Table(name = "employee")
 @NamedEntityGraph(name = "Employee.team", attributeNodes = {@NamedAttributeNode("team")})
+@NamedEntityGraph(
+    name = "Employee.rolesAndPrivileges",
+    attributeNodes = @NamedAttributeNode(value = "roles", subgraph = "rolesPrivileges"),
+    subgraphs = @NamedSubgraph(
+        name = "rolesPrivileges",
+        attributeNodes = @NamedAttributeNode("privileges")
+    )
+)
 public class Employee extends BaseEntity {
 
   @Size(max = 255)

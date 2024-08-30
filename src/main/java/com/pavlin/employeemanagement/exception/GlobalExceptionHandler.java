@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -31,6 +32,13 @@ public class GlobalExceptionHandler {
 
   public GlobalExceptionHandler(MessageUtil messageUtil) {
     this.messageUtil = messageUtil;
+  }
+
+  @ExceptionHandler(value = {BadCredentialsException.class})
+  public ResponseEntity<Object> handleBadCredentialsException(BadCredentialsException e) {
+    logger.info(e.getMessage(), e);
+    return new ResponseEntity<>(messageUtil.getMessage("exception.bad_credential"),
+        HttpStatus.UNAUTHORIZED);
   }
 
   @ExceptionHandler(value = {RelatedEntityNotFoundException.class})
